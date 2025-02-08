@@ -13,17 +13,17 @@ import axios from 'axios';
 const username = ref('');
 const password = ref('');
 
-const login = async () => {
-    try {
-        const response = await axios.post('https://localhost:3000/api/login', {
-            username: username.value,
-            password: password.value
-        });
-
+const login = () => {
+    axios.post('https://localhost:3000/api/login', {
+        username: username.value,
+        password: password.value
+    })
+    .then(response => {
         console.log('Login successful:', response.data);
-    } catch (error) {
+    })
+    .catch(error => {
         console.error('Error logging in:', error.response?.data || error.message);
-    }
+    });
 };
 </script>
 

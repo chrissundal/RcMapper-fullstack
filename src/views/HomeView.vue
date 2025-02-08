@@ -17,8 +17,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import fetchSingleUser from "@/components/fetchSingleUser.js";
-import fetchUsers from "@/components/fetchUsers.js";
+import fetchSingleUser from "@/components/fetch/fetchSingleUser.js";
+import fetchUsers from "@/components/fetch/fetchUsers.js";
 const users = ref([]);
 const singleUser = ref(null);
 

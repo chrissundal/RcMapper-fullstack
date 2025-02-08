@@ -7,7 +7,7 @@ import { onMounted, ref } from 'vue';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useRouter } from 'vue-router';
-import fetchLocations from "@/components/locationsFetch.js";
+import fetchLocations from "./fetch/locationsFetch.js";
 
 const mapContainer = ref(null);
 const router = useRouter();
@@ -53,11 +53,27 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style>
 #map {
   height: 70vh;
   width: 90vw;
   border-radius: 10px;
 }
-
+.locationPopup {
+    display: flex;
+    flex-direction: column;
+}
+.locationPopup button {
+    border-radius: 8px;
+    border: none;
+    padding: 5px;
+    transition: 0.3s ease;
+    font-size: medium;
+    font-weight: bold;
+}
+.locationPopup button:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+    background-color: #30c0ff;
+}
 </style>

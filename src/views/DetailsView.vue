@@ -18,7 +18,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import fetchLocationDetails from "@/components/fetchSingleLocation.js";
+import fetchLocationDetails from "@/components/fetch/fetchSingleLocation.js";
 
 
 const route = useRoute();

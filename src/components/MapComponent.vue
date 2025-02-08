@@ -6,9 +6,11 @@
 import { onMounted, ref } from 'vue';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import MapIcons from './MapIcons.js'
+import { useRouter } from 'vue-router';
+import fetchLocations from "@/components/locationsFetch.js";
 
 const mapContainer = ref(null);
+const router = useRouter();
 
 const initializeMap = (latitude, longitude) => {
   const map = L.map(mapContainer.value).setView([latitude, longitude], 13);
@@ -28,30 +30,10 @@ const initializeMap = (latitude, longitude) => {
 
   fetchLocations(map);
 };
-
-const fetchLocations = async (map) => {
-  try {
-    const response = await fetch('https://localhost:3000/api/locations');
-    const locations = await response.json();
-    console.log('Fetched locations:', locations);
-
-    locations.forEach(location => {
-        const date = new Date(location.createdAt);
-        const icon = MapIcons[location.category] || MapIcons['Default'];
-
-        L.marker([location.latitude, location.longitude], { icon })
-            .addTo(map)
-            .bindPopup(`
-          <strong>${location.title}</strong>
-          <br><p>${location.description}</p>
-          <p>Opprettet av: ${location.userId}</p>
-          <p>${date.toLocaleString()}</p>
-        `);
-    });
-  } catch (error) {
-    console.error('Error fetching locations:', error);
-  }
+const navigateToDetails = (id) => {
+    router.push(`/details/${id}`);
 };
+window.navigateToDetails = navigateToDetails;
 
 onMounted(() => {
   if (navigator.geolocation) {
@@ -73,8 +55,9 @@ onMounted(() => {
 
 <style scoped>
 #map {
-  height: 500px;
-  width: 100%;
+  height: 70vh;
+  width: 90vw;
   border-radius: 10px;
 }
+
 </style>

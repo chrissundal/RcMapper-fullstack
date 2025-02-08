@@ -24,6 +24,15 @@ app.get('/api/locations', async (req, res) => {
         res.status(500).send('Server error');
     });
 });
+app.get('/api/locations/:id', async (req, res) => {
+    Location.findOne({ where: { locationId: req.params.id} })
+        .then(locations => {
+            res.json(locations);
+        })
+        .catch(err => {
+            res.status(500).send('Server error');
+        });
+});
 app.get('/api/users', async (req, res) => {
     User.findAll()
     .then((users) => {

@@ -22,9 +22,10 @@ const router = createRouter({
       component: MapView,
     },
     {
-      path: '/details',
+      path: '/details/:id',
       name: 'details',
       component: DetailsView,
+      props: true,
     },
   ],
 })

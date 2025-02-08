@@ -1,11 +1,12 @@
 ﻿import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import MapIcons from './MapIcons.js';
+import axios from "axios";
 
 const fetchLocations = async (map) => {
   try {
-    const response = await fetch('https://localhost:3000/api/locations');
-    const locations = await response.json();
+    const response = await axios.get('https://localhost:3000/api/locations');
+    const locations = await response.data;
     console.log('Fetched locations:', locations);
 
     locations.forEach(location => {

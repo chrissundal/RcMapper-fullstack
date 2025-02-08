@@ -17,35 +17,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-
+import fetchSingleUser from "@/components/fetchSingleUser.js";
+import fetchUsers from "@/components/fetchUsers.js";
 const users = ref([]);
 const singleUser = ref(null);
 
-const fetchUsers = async () => {
-  try {
-    const response = await fetch('https://localhost:3000/api/users');
-    const data = await response.json();
-    users.value = data;
-    console.log('Fetched users:', data);
-  } catch (error) {
-    console.error('Error fetching users:', error);
-  }
-}
-
-const fetchUser = async () => {
-  try {
-    const response = await fetch('https://localhost:3000/api/users/1');
-    const data = await response.json();
-    singleUser.value = data;
-    console.log('Fetched user with ID 1:', data);
-  } catch (error) {
-    console.error('Error fetching user:', error);
-  }
-}
-
-onMounted(() => {
-  fetchUsers();
-  fetchUser();
+onMounted(async() => {
+    users.value = await fetchUsers();
+    singleUser.value = await fetchSingleUser(1);
 });
 </script>
 

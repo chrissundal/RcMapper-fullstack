@@ -23,7 +23,7 @@ const singleUser = ref(null);
 
 const fetchUsers = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/users');
+    const response = await fetch('https://localhost:3000/api/users');
     const data = await response.json();
     users.value = data;
     console.log('Fetched users:', data);
@@ -34,7 +34,7 @@ const fetchUsers = async () => {
 
 const fetchUser = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/users/1');
+    const response = await fetch('https://localhost:3000/api/users/1');
     const data = await response.json();
     singleUser.value = data;
     console.log('Fetched user with ID 1:', data);

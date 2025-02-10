@@ -72,7 +72,23 @@ app.post('/api/login', async (req, res) => {
             res.status(500).send('Server error');
         })
 });
-
+app.post('/api/locations', async (req, res) => {
+    const { userId, latitude, longitude, title, description, category } = req.body;
+    Location.create({
+        userId,
+        latitude,
+        longitude,
+        title,
+        description,
+        category,
+        createdAt: new Date(),
+    }).then(newLocation => {
+        res.status(201).json(newLocation);
+    })
+        .catch((err) => {
+            res.status(500).send('Server error');
+        })
+})
 
 const sslOptions = {
     key: fs.readFileSync('C:/Users/chris/OneDrive/Documents/GitHub/GETPrepared/localhost-key.pem'),

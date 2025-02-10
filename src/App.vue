@@ -6,8 +6,8 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <header>
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/home">Home</RouterLink>
+        <RouterLink to="/profile">Profile</RouterLink>
         <RouterLink to="/map">Map</RouterLink>
       </nav>
   </header>
@@ -22,7 +22,6 @@ header {
 }
 
 nav {
-
     width: 100%;
     font-size: 12px;
     text-align: center;
@@ -30,7 +29,7 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-
+    font-family: "Agent Orange";
 }
 
 nav a.router-link-exact-active {

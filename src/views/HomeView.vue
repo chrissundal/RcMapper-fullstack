@@ -19,6 +19,8 @@
 import { ref, onMounted } from 'vue';
 import fetchSingleUser from "@/components/fetch/fetchSingleUser.js";
 import fetchUsers from "@/components/fetch/fetchUsers.js";
+import { state } from '@/components/user.js';
+
 const users = ref([]);
 const singleUser = ref(null);
 
@@ -34,5 +36,10 @@ onMounted(async() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+h3 {
+    text-align: center;
+    font-family: "Agent Orange";
+    margin: 20px;
 }
 </style>

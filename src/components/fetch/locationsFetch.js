@@ -6,8 +6,6 @@ import axios from "axios";
 const fetchLocations = (map) => {
     axios.get('https://localhost:3000/api/locations').then(res => {
     const locations = res.data
-    console.log('Fetched locations:', locations);
-
     locations.forEach(location => {
       const icon = MapIcons[location.category] || MapIcons['Default'];
 

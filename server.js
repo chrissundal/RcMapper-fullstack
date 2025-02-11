@@ -89,7 +89,14 @@ app.post('/api/locations', async (req, res) => {
             res.status(500).send('Server error');
         })
 })
-
+app.delete('/api/locations/:id', async (req, res) => {
+    Location.destroy({ where: { locationId: req.params.id } })
+        .then(() => {
+        res.status(200).send('Location deleted');
+    }).catch(err => {
+        res.status(500).send('Server error');
+    })
+})
 const sslOptions = {
     key: fs.readFileSync('C:/Users/chris/OneDrive/Documents/GitHub/GETPrepared/localhost-key.pem'),
     cert: fs.readFileSync('C:/Users/chris/OneDrive/Documents/GitHub/GETPrepared/localhost.pem'),

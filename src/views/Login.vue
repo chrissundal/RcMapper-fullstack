@@ -9,11 +9,13 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-import { setUserId } from '@/components/user.js';
 import {useRouter} from "vue-router";
+import { useStore } from 'vuex';
+
 const username = ref('');
 const password = ref('');
 const router = useRouter();
+const store = useStore();
 const login = () => {
     axios.post('https://localhost:3000/api/login', {
         username: username.value,
@@ -21,8 +23,8 @@ const login = () => {
     })
     .then(response => {
         console.log('Login successful:', response.data);
-        setUserId(response.data.id);
-        router.push(`/home`);
+        store.dispatch('login', response.data);
+        router.push(`/`);
     })
     .catch(error => {
         console.error('Error logging in:', error.response?.data || error.message);

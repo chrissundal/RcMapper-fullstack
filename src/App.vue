@@ -6,7 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <header>
       <nav>
-        <RouterLink to="/home">Home</RouterLink>
+        <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
         <RouterLink to="/map">Map</RouterLink>
       </nav>
@@ -49,10 +49,5 @@ nav a {
 nav a:first-of-type {
   border: 0;
 }
-
-
-
-
-
 
 </style>

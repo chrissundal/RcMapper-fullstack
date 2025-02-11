@@ -1,21 +1,15 @@
-﻿import { state } from '@/components/user.js';
-import postLocation from './post/postLocation.js';
-import fetchLocations from "./fetch/locationsFetch.js";
-
-let lat;
+﻿let lat;
 let long;
-let newMap;
-let newPopup;
+let User;
 
-function extracted(e, map, popup) {
+function extracted(e, user) {
     let newTitle = '';
     let description = '';
     let category = '';
 
     lat = e.latlng.lat;
     long = e.latlng.lng;
-    newMap = map;
-    newPopup = popup;
+    User = user;
 
     let content = `
     <div class="new-location">
@@ -37,9 +31,10 @@ function extracted(e, map, popup) {
 }
 
 window.postNewLocation = async () => {
+    console.log(User.id);
     let newLoc = {
         locationId: null,
-        userId: state.userId,
+        userId: User.id,
         latitude: lat,
         longitude: long,
         title: window.newTitle,
@@ -47,9 +42,8 @@ window.postNewLocation = async () => {
         createdAt: null,
         category: window.category
     };
-    await postLocation(newLoc);
-    fetchLocations(newMap);
-    newPopup.close();
+    await handlePostNewLocation(newLoc);
 };
 
 export default extracted;
+

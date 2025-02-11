@@ -8,25 +8,25 @@
       </ul>
     </div>
 
-    <div v-if="singleUser">
-      <h4>Fetched User with ID 1</h4>
-      <p>{{ singleUser.firstname }} {{ singleUser.lastname }}</p>
+    <div v-if="user">
+      <h4>Fetched User with ID {{user.id}}</h4>
+      <p>{{ user.firstname }} {{ user.lastname }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import fetchSingleUser from "@/components/fetch/fetchSingleUser.js";
+import { useStore } from 'vuex';
 import fetchUsers from "@/components/fetch/fetchUsers.js";
-import { state } from '@/components/user.js';
 
+const store = useStore();
 const users = ref([]);
-const singleUser = ref(null);
+const user = ref({});
 
 onMounted(async() => {
     users.value = await fetchUsers();
-    singleUser.value = await fetchSingleUser(1);
+    user.value = store.state.user;
 });
 </script>
 

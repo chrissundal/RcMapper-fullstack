@@ -22,7 +22,7 @@ import MapDetailsComponent from "@/components/MapDetailsComponent.vue";
 import fetchLocationDetails from "@/components/fetch/fetchSingleLocation.js";
 import fetchSingleUser from "@/components/fetch/fetchSingleUser.js";
 import RcIcons from "@/components/RcIcons.js";
-import { state } from '@/components/user.js';
+
 
 const route = useRoute();
 const location = ref({});

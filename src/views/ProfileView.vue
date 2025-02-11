@@ -4,14 +4,14 @@
 </template>
 
 <script setup>
-import { state } from '@/components/user.js';
-import fetchSingleUser from "@/components/fetch/fetchSingleUser.js";
 import {onMounted, ref} from "vue";
+import { useStore } from 'vuex';
+const store = useStore();
 
 const user = ref({})
 
 onMounted(async () => {
-    user.value = await fetchSingleUser(state.userId);
+    user.value = store.state.user;
 })
 
 </script>

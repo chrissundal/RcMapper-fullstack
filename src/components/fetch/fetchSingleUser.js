@@ -2,12 +2,9 @@
 
 const fetchSingleUser = (id) => {
     return axios.get(`https://localhost:3000/api/users/${id}`)
-        .then(res => {
-        console.log(`Fetched user with ID ${id}:`, res.data);
-        return res.data
-        })
+        .then(res => res.data)
         .catch (error => {
-            console.error('Error fetching user:', error);
+            console.error('Feil ved henting av bruker:', error);
         })
 }
 export default fetchSingleUser ;

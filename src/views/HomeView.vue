@@ -39,7 +39,7 @@ onMounted(async() => {
 }
 h3 {
     text-align: center;
-    font-family: "Agent Orange";
+    font-family: "Glossy Sheen";
     margin: 20px;
 }
 </style>

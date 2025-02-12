@@ -1,5 +1,5 @@
 ﻿import { DataTypes } from 'sequelize';
-import { sequelize } from '../config/database.js';
+import sequelize from '../config/database.js';
 
 const Location = sequelize.define('Location', {
   locationId: {

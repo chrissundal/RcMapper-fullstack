@@ -11,16 +11,14 @@ const sequelize = new Sequelize('RcMapper', 'christoffer', 'test123', {
   },
   logging: false
 });
+sequelize.authenticate()
+    .then(() => {
+        console.log('Database connected successfully!');
+        sequelize.sync();
+    })
+    .catch(err => {
+        console.error('Unable to connect to the database:', err);
+    });
 
-const connectToDatabase = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('Database connected successfully!');
-    await sequelize.sync();
-  } catch (err) {
-    console.error('Database connection failed:', err);
-  }
-};
-
-export { sequelize, connectToDatabase };
+export default sequelize;
 

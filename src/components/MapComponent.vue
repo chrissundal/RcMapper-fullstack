@@ -34,7 +34,7 @@ const initializeMap = (latitude, longitude) => {
         fillOpacity: 0.6,
     })
         .addTo(map)
-        .bindPopup('You are here')
+        .bindPopup('Du er her')
         .openPopup();
 
     markersGroup.value = L.layerGroup().addTo(map);
@@ -51,13 +51,13 @@ const onMapClick = (e) => {
 };
 
 window.handleDeleteLocation = async (id) => {
-    if(confirm('Are you sure you want to delete this location?')) {
+    if(confirm('Er du sikker?')) {
         const success = await deleteLocation(id);
         if (success) {
             popup.remove();
             fetchLocations(map, store.state.user, markersGroup.value);
         } else {
-            console.error('Error: Location could not be deleted');
+            console.error('Kunne ikke slettes');
         }
     }
 };
@@ -79,7 +79,7 @@ onMounted(() => {
                 initializeMap(latitude, longitude);
             },
             (error) => {
-                console.error('Error getting geolocation:', error);
+                console.error('Feil ved henting av geodata:', error);
                 initializeMap(59.0586, 10.0444);
             }
         );
@@ -104,6 +104,7 @@ onUnmounted(() => {
     height: 70vh;
     width: 90vw;
     border-radius: 10px;
+    font-family: "Glossy Sheen";
 }
 .locationPopup {
     display: flex;
@@ -112,8 +113,6 @@ onUnmounted(() => {
     padding: 5px;
     text-align: center;
 }
-
-
 .new-location {
     display: flex;
     flex-direction: column;
@@ -121,6 +120,30 @@ onUnmounted(() => {
     align-items: center;
     padding: 10px;
     gap: 10px;
+    font-family: "Glossy Sheen";
+}
+.new-location button {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    transition: 0.4s ease;
+    font-size: medium;
+    font-family: "Glossy Sheen";
+}
+.new-location button:hover {
+    transform: scale(1.04);
+    background: #30c0ff;
+}
+.new-location input {
+    font-family: "Glossy Sheen";
+    outline: none;
+    border-radius: 10px;
+    padding: 10px;
+}
+.new-location select {
+    border-radius: 10px;
+    height: 30px;
+    cursor: pointer;
 }
 .delete-location {
     width: 25px;
@@ -149,17 +172,19 @@ onUnmounted(() => {
     padding: 5px;
     transition: 0.3s ease;
     font-size: medium;
-    font-weight: bold;
+    font-family: "Glossy Sheen";
 }
 .details-button:hover {
     cursor: pointer;
     transform: scale(1.03);
     background-color: #30c0ff;
+    color: white;
 }
 .locationPopup h3 {
-    font-weight: bold;
     color: #30c0ff;
     margin-top: 0;
     margin-bottom: 10px;
+    font-family: "Glossy Sheen";
+    font-size: large;
 }
 </style>

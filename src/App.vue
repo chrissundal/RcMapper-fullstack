@@ -1,11 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { useStore } from 'vuex';
 
+const store = useStore();
 </script>
 
 <template>
   <header>
-      <nav>
+      <nav v-if="store.state.user !== null">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
         <RouterLink to="/map">Map</RouterLink>
@@ -23,13 +25,13 @@ header {
 
 nav {
     width: 100%;
-    font-size: 12px;
+    font-size: 25px;
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: "Agent Orange";
+    font-family: bubblegums;
 }
 
 nav a.router-link-exact-active {

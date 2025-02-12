@@ -31,7 +31,7 @@ const fetchLocations = (map, user, markersGroup) => {
             });
         })
         .catch(error => {
-            console.error('Error fetching locations:', error);
+            console.error('Feil ved henting av locations', error);
         });
 };
 

@@ -2,10 +2,10 @@
 import cors from 'cors';
 import fs from 'fs';
 import https from 'https';
-import { connectToDatabase } from './config/database.js';
+import morgan from 'morgan';
+import sequelize from './config/database.js';
 import Location from './models/Location.js';
 import User from './models/User.js';
-import morgan from 'morgan';
 
 const app = express();
 const port = 3000;
@@ -13,8 +13,6 @@ const port = 3000;
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
-
-connectToDatabase();
 
 app.get('/api/locations', async (req, res) => {
     Location.findAll()
@@ -58,14 +56,13 @@ app.get('/api/users/:id', async (req, res) => {
         res.status(500).send('Server error');
     });
 });
-app.post('/api/login', async (req, res) => {
+app.post('/api/login', (req, res) => {
     User.findOne({ where: { username: req.body.username, password: req.body.password } })
         .then((user) => {
             if (user) {
                 res.json(user);
-            }
-            else{
-                res.status(404).send('User not found');
+            } else {
+               res.status(404).send('Feil brukernavn eller passord');
             }
         })
         .catch(err => {
@@ -73,26 +70,31 @@ app.post('/api/login', async (req, res) => {
         })
 });
 app.post('/api/locations', async (req, res) => {
-    const { userId, latitude, longitude, title, description, category } = req.body;
-    Location.create({
-        userId,
-        latitude,
-        longitude,
-        title,
-        description,
-        category,
-        createdAt: new Date(),
-    }).then(newLocation => {
+    Location.create(req.body)
+        .then(newLocation => {
         res.status(201).json(newLocation);
     })
         .catch((err) => {
             res.status(500).send('Server error');
         })
 })
+app.post('/api/users', async (req, res) => {
+    try {
+        const existingUser = await User.findOne({ where: {username: req.body.username}});
+        if (existingUser) {
+            return res.status(409).json("Brukernavn allerede tatt.");
+        }
+        const newUser = await User.create(req.body);
+        res.status(201).json(newUser);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
 app.delete('/api/locations/:id', async (req, res) => {
     Location.destroy({ where: { locationId: req.params.id } })
         .then(() => {
-        res.status(200).send('Location deleted');
+        res.status(200).send('Sted slettet');
     }).catch(err => {
         res.status(500).send('Server error');
     })

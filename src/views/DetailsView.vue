@@ -2,9 +2,8 @@
     <div class="details-container">
         <div v-if="location" class="details">
             <h1>{{ location.title }}</h1>
-            <p>{{ location.description }}</p>
+            <p>{{ location.description }}</p><br>
             <img :src="getIconUrl(location.category)" alt="Category Icon" class="category-icon" />
-            <p>Kategori: {{ location.category }}</p>
             <MapDetailsComponent :location="location" />
             <p>Opprettet av: {{ user.username }}</p>
             <p class="details-date">{{ new Date(location.createdAt).toLocaleString() }}</p>
@@ -36,7 +35,7 @@ onMounted(async () => {
             user.value = await fetchSingleUser(location.value.userId);
         }
     } catch (error) {
-        console.error('Error fetching location details:', error);
+        console.error('Feil ved henting av location:', error);
     }
 });
 const getIconUrl = (category) => {
@@ -57,6 +56,7 @@ const getIconUrl = (category) => {
     width: 80vw;
     height: 70vh;
     position: relative;
+    font-family: "Glossy Sheen";
 }
 .details-container {
     display: flex;
@@ -64,9 +64,13 @@ const getIconUrl = (category) => {
     align-items: center;
     flex-direction: column;
 }
+.details-container p {
+    font-size: medium;
+}
 .details-date {
     font-style: italic;
     font-size: small;
+    font-family: "Arial Rounded MT Bold";
 }
 .category-icon {
     height: 50px;

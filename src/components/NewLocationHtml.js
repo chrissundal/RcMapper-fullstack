@@ -13,9 +13,10 @@ function extracted(e, user) {
 
     let content = `
     <div class="new-location">
-      <input oninput="window.newTitle=this.value" type="text" placeholder="Title">
-      <input oninput="window.description=this.value" type="text" placeholder="Description">
-      <select onchange="window.category=this.value">
+      <input oninput="window.newTitle=this.value" type="text" placeholder="Skriv inn en tittel...">
+      <input oninput="window.description=this.value" type="text" placeholder="Skriv inn en beskrivelse...">
+      <div>
+      Velg kategori:  <select onchange="window.category=this.value">
         <option></option>
         <option value="Car">Car</option>
         <option value="Crawler">Crawler</option>
@@ -23,6 +24,7 @@ function extracted(e, user) {
         <option value="Plane">Plane</option>
         <option value="Quad">Quad</option>
       </select>
+</div>
       <button onclick="postNewLocation()">Lagre</button>
     </div>
   `;
@@ -31,7 +33,6 @@ function extracted(e, user) {
 }
 
 window.postNewLocation = async () => {
-    console.log(User.id);
     let newLoc = {
         locationId: null,
         userId: User.id,
@@ -39,7 +40,7 @@ window.postNewLocation = async () => {
         longitude: long,
         title: window.newTitle,
         description: window.description,
-        createdAt: null,
+        createdAt: new Date(),
         category: window.category
     };
     await handlePostNewLocation(newLoc);

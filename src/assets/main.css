@@ -1,12 +1,26 @@
-@import './base.css';
+body {
+  background: #000;
+  color: gray;
+  font-family: "Agency FB";
+  font-weight: bold;
+}
 
 #app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  font-weight: normal;
 }
-
+input {
+  font-family: "Agency FB";
+  outline: none;
+  border-radius: 10px;
+  padding: 10px;
+  font-weight: bold;
+}
+h3 {
+  font-family: "Agency FB";
+  font-weight: bold;
+}
 a,
 .green {
   text-decoration: none;
@@ -16,7 +30,18 @@ a,
   font-size: large;
   font-weight: bold;
 }
-
+button {
+  font-family: "Glossy Sheen";
+  outline: none;
+  border-radius: 10px;
+  padding: 10px;
+}
+button:hover {
+  cursor: pointer;
+  color: white;
+  transform: scale(1.03);
+  background-color: #30c0ff;
+}
 @media (hover: hover) {
   a:hover {
     background-color: #30c0ff;
@@ -28,6 +53,7 @@ a,
   body {
     display: flex;
     place-items: center;
+    font-family: "Glossy Sheen";
   }
 
   #app {

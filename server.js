@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import sequelize from './config/database.js';
 import Location from './models/Location.js';
 import User from './models/User.js';
+import Favorites from "./models/Favorites.js";
 
 const app = express();
 const port = 3000;
@@ -13,15 +14,28 @@ const port = 3000;
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
-
+app.get('/api/favorites/:id', (req, res) => {
+    Favorites.findAll({ where: { userId: req.params.id } })
+        .then(favorites => res.json(favorites))
+        .catch(err => {
+            res.status(500).send('Server error');
+            console.error(err);
+        });
+});
 app.get('/api/locations', async (req, res) => {
-    Location.findAll()
-    .then(locations => {
-        res.json(locations);
-    })
-    .catch(err => {
-        res.status(500).send('Server error');
-    });
+    const { category } = req.query;
+    let categoryQuery = {};
+    if (category) {
+        categoryQuery.category = category;
+    }
+    Location.findAll({ where: categoryQuery })
+        .then(locations => {
+            res.json(locations);
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).send('Server error');
+        });
 });
 app.get('/api/locations/:id', async (req, res) => {
     Location.findOne({ where: { locationId: req.params.id} })
@@ -90,7 +104,26 @@ app.post('/api/users', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+app.post('/api/favorites', (req, res) => {
+    const { userId, locationId } = req.body;
 
+    Favorites.create({ userId, locationId })
+        .then(favorite => res.status(201).json(favorite))
+        .catch(err => {
+            res.status(500).send('Server error');
+            console.error(err);
+        });
+});
+app.delete('/api/favorites', (req, res) => {
+    const { userId, locationId } = req.body;
+
+    Favorites.destroy({ where: { userId, locationId } })
+        .then(() => res.status(200).send('Favoritt slettet'))
+        .catch(err => {
+            res.status(500).send('Server error');
+            console.error(err);
+        });
+});
 app.delete('/api/locations/:id', async (req, res) => {
     Location.destroy({ where: { locationId: req.params.id } })
         .then(() => {

@@ -1,6 +1,6 @@
 ﻿<template>
   <div class="maps-container">
-    <h3>Maps</h3>
+
     <MapComponent />
   </div>
 </template>
@@ -17,7 +17,10 @@ import MapComponent from "@/components/MapComponent.vue";
 }
 h3 {
     text-align: center;
-    font-family: "Glossy Sheen";
     margin: 20px;
+}
+.filter-buttons {
+    display: flex;
+    margin: 10px;
 }
 </style>

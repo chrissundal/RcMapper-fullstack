@@ -19,23 +19,22 @@ const store = useStore();
 
 <style scoped>
 header {
-  line-height: 1.5;
   max-height: 100px;
 }
 
 nav {
     width: 100%;
-    font-size: 25px;
+    font-size: 35px;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: bubblegums;
+    font-family: "Glossy Sheen";
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  color: gray;
 }
 
 nav a.router-link-exact-active:hover {
@@ -43,9 +42,10 @@ nav a.router-link-exact-active:hover {
 }
 
 nav a {
+    font-size: 25px;
   display: flex;
   padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  border-left: 1px solid gray;
 }
 
 nav a:first-of-type {

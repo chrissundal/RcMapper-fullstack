@@ -1,5 +1,17 @@
 ﻿<template>
-    <div id="map" ref="mapContainer"></div>
+    <div>
+        <div class="filter-container">
+            <button
+                v-for="filter in filters"
+                :key="filter.value"
+                @click="applyFilter(filter)"
+                :class="{ active: activeFilter === filter.value }"
+                :disabled="activeFilter === filter.value">
+                {{ filter.label }}
+            </button>
+        </div>
+        <div id="map" ref="mapContainer"></div>
+    </div>
 </template>
 
 <script setup>
@@ -12,6 +24,7 @@ import extracted from '@/components/NewLocationHtml.js';
 import deleteLocation from '@/components/delete/deleteLocation.js';
 import { useStore } from 'vuex';
 import postLocation from "@/components/post/postLocation.js";
+import filters from "@/components/CategoryFilters.js";
 
 const store = useStore();
 const mapContainer = ref(null);
@@ -20,7 +33,10 @@ const markersGroup = ref(null);
 let map;
 let popup = L.popup();
 
+const activeFilter = ref('');
+
 const initializeMap = (latitude, longitude) => {
+    let filter = {}
     map = L.map(mapContainer.value).setView([latitude, longitude], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -38,32 +54,39 @@ const initializeMap = (latitude, longitude) => {
         .openPopup();
 
     markersGroup.value = L.layerGroup().addTo(map);
-    fetchLocations(map, store.state.user, markersGroup.value);
+    fetchLocations(map, store.state.user, markersGroup.value, filter);
 
     map.on('click', onMapClick);
 };
 
 const onMapClick = (e) => {
     popup
-        .setLatLng(e.latlng)
-        .setContent(extracted(e, store.state.user))
-        .openOn(map);
+    .setLatLng(e.latlng)
+    .setContent(extracted(e, store.state.user))
+    .openOn(map);
+};
+
+const applyFilter = (filter) => {
+    activeFilter.value = filter.value;
+    fetchLocations(map, store.state.user, markersGroup.value, filter.value ? { category: filter.value } : {});
 };
 
 window.handleDeleteLocation = async (id) => {
+    let filter = {};
     if(confirm('Er du sikker?')) {
         const success = await deleteLocation(id);
         if (success) {
             popup.remove();
-            fetchLocations(map, store.state.user, markersGroup.value);
+            await fetchLocations(map, store.state.user, markersGroup.value, filter);
         } else {
             console.error('Kunne ikke slettes');
         }
     }
 };
 window.handlePostNewLocation = async (newLoc) => {
+    let filter = {};
     await postLocation(newLoc);
-    fetchLocations(map, store.state.user, markersGroup.value);
+    await fetchLocations(map, store.state.user, markersGroup.value, filter);
     popup.close();
 };
 
@@ -101,10 +124,11 @@ onUnmounted(() => {
 
 <style>
 #map {
-    height: 70vh;
+    height: 80vh;
     width: 90vw;
     border-radius: 10px;
-    font-family: "Glossy Sheen";
+    font-family: "Agency FB";
+    font-weight: bold;
 }
 .locationPopup {
     display: flex;
@@ -120,7 +144,9 @@ onUnmounted(() => {
     align-items: center;
     padding: 10px;
     gap: 10px;
-    font-family: "Glossy Sheen";
+    font-family: "Agency FB";
+    font-weight: bold;
+
 }
 .new-location button {
     padding: 10px;
@@ -131,19 +157,21 @@ onUnmounted(() => {
     font-family: "Glossy Sheen";
 }
 .new-location button:hover {
+    color: white;
     transform: scale(1.04);
     background: #30c0ff;
 }
-.new-location input {
-    font-family: "Glossy Sheen";
-    outline: none;
-    border-radius: 10px;
-    padding: 10px;
-}
+
 .new-location select {
     border-radius: 10px;
     height: 30px;
     cursor: pointer;
+    font-family: "Agency FB";
+    font-weight: bold;
+    font-size: medium;
+}
+.new-location input {
+    width: 280px;
 }
 .delete-location {
     width: 25px;
@@ -172,7 +200,7 @@ onUnmounted(() => {
     padding: 5px;
     transition: 0.3s ease;
     font-size: medium;
-    font-family: "Glossy Sheen";
+
 }
 .details-button:hover {
     cursor: pointer;
@@ -184,7 +212,39 @@ onUnmounted(() => {
     color: #30c0ff;
     margin-top: 0;
     margin-bottom: 10px;
-    font-family: "Glossy Sheen";
+    font-weight: bold;
     font-size: large;
+}
+.filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    gap: 5px;
+    height: 40px;
+}
+.filter-container button {
+    width: 13vw;
+    max-width: 150px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    height: 30px;
+    transition: 0.4s ease;
+}
+.filter-container button:hover {
+    transform: scale(1.05);
+}
+.filter-container button.active {
+    color: white;
+}
+.filter-container button.active:hover {
+    transform: scale(1);
+    cursor: default;
+}
+.filter-container button:disabled {
+    background: gray;
 }
 </style>

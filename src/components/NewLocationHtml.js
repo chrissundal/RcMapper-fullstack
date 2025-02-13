@@ -12,27 +12,27 @@ function extracted(e, user) {
     User = user;
 
     let content = `
-    <div class="new-location">
-      <input oninput="window.newTitle=this.value" type="text" placeholder="Skriv inn en tittel...">
-      <input oninput="window.description=this.value" type="text" placeholder="Skriv inn en beskrivelse...">
+    <form class="new-location" onsubmit="postNewLocation(event)">
+      <input oninput="window.newTitle=this.value" type="text" placeholder="Skriv inn en tittel..." minlength="4" required>
+      <input oninput="window.description=this.value" type="text" placeholder="Skriv inn en beskrivelse..." minlength="20" required>
       <div>
-      Velg kategori:  <select onchange="window.category=this.value">
-        <option></option>
-        <option value="Car">Car</option>
-        <option value="Crawler">Crawler</option>
-        <option value="Drone">Drone</option>
-        <option value="Plane">Plane</option>
-        <option value="Quad">Quad</option>
-      </select>
-</div>
-      <button onclick="postNewLocation()">Lagre</button>
+          Velg kategori:  <select onchange="window.category=this.value" required>
+            <option></option>
+            <option value="Car">Bil</option>
+            <option value="Crawler">Crawler</option>
+            <option value="Plane">Fly</option>
+            <option value="Drone">Drone</option>
+            <option value="Quad">Quad</option>
+          </select>
     </div>
+      <button type="submit"">Lagre</button>
+    </form>
   `;
-
     return content;
 }
 
-window.postNewLocation = async () => {
+window.postNewLocation = async (event) => {
+    event.preventDefault();
     let newLoc = {
         locationId: null,
         userId: User.id,

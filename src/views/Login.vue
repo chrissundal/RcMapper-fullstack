@@ -58,7 +58,7 @@ const CloseRegister = () => {
     align-items: center;
     gap: 10px;
     margin-top: 20px;
-    font-family: "Glossy Sheen";
+    font-weight: bold;
 }
 .login-container img{
     max-width: 500px;
@@ -66,10 +66,8 @@ const CloseRegister = () => {
 }
 input {
     width: 300px;
-    border-radius: 10px;
-    padding: 10px;
-    border: none;
-    font-family: "Glossy Sheen";
+    font-family: "Agency FB";
+    font-weight: bold;
 }
 .login-container button {
     border: none;
@@ -77,15 +75,9 @@ input {
     padding: 10px;
     border-radius: 10px;
     font-size: medium;
-    font-family: "Glossy Sheen";
     transition: 0.3s ease;
 }
-button:hover {
-    cursor: pointer;
-    color: white;
-    transform: scale(1.03);
-    background-color: #30c0ff;
-}
+
 span {
     color: #30c0ff;
     transition: 0.3s ease;
@@ -110,6 +102,7 @@ span:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
 }
 
 </style>

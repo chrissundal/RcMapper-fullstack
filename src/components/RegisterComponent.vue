@@ -1,7 +1,7 @@
 ﻿<template>
     <form @submit.prevent="register">
         <input v-model="newUsername" type="text" placeholder="Skriv inn brukernavn..." minlength="5" required>
-        <input v-model="newPassword" type="password" placeholder="Skriv inn passord..." minlength="5" required>
+        <input v-model="newPassword" type="new-password" placeholder="Skriv inn passord..." minlength="5" required>
         <input v-model="firstName" type="text" placeholder="Skriv inn fornavn..."  required>
         <input v-model="lastName" type="text" placeholder="Skriv inn etternavn..." required>
         <h4 v-if="errorMessage" class="error-message">{{ errorMessage }}</h4>
@@ -49,15 +49,15 @@ const register = () => {
 }
 .submit-reg, .cancel-reg {
     width: 130px;
-    height: 30px;
+    height: 40px;
     margin: 5px;
     border: none;
     outline: none;
     cursor: pointer;
     border-radius: 10px;
     transition: 0.3s ease;
-    font-family: "Glossy Sheen";
     font-size: medium;
+
 }
 .cancel-reg:hover {
     background: red;
@@ -80,10 +80,7 @@ form {
 }
 input {
     width: 300px;
-    border-radius: 10px;
-    padding: 10px;
-    border: none;
-    font-family: "Glossy Sheen";
+    background: white;
 }
 button:hover {
     cursor: pointer;

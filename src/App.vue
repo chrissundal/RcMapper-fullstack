@@ -6,8 +6,9 @@ const store = useStore();
 </script>
 
 <template>
-  <header>
-      <nav v-if="store.state.user !== null">
+  <header v-if="store.state.user !== null">
+      <h2>RcMapper</h2>
+      <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
         <RouterLink to="/map">Map</RouterLink>
@@ -21,12 +22,16 @@ const store = useStore();
 header {
   max-height: 100px;
 }
-
+header h2 {
+    text-align: center;
+    font-family: "Glossy Sheen";
+    margin: 0;
+}
 nav {
     width: 100%;
     font-size: 35px;
     text-align: center;
-    margin-top: 0;
+    margin-top: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,7 +50,11 @@ nav a {
     font-size: 25px;
   display: flex;
   padding: 0 1rem;
-  border-left: 1px solid gray;
+    width: 80px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 nav a:first-of-type {

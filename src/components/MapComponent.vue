@@ -25,6 +25,7 @@ import deleteLocation from '@/components/delete/deleteLocation.js';
 import { useStore } from 'vuex';
 import postLocation from "@/components/post/postLocation.js";
 import filters from "@/components/CategoryFilters.js";
+import axios from "axios";
 
 const store = useStore();
 const mapContainer = ref(null);
@@ -73,6 +74,8 @@ const applyFilter = (filter) => {
 
 window.handleDeleteLocation = async (id) => {
     let filter = {};
+    let locationId = id;
+    let userId = store.state.user.id;
     if(confirm('Er du sikker?')) {
         const success = await deleteLocation(id);
         if (success) {

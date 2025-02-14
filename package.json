@@ -15,6 +15,7 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "leaflet": "^1.9.4",
+    "leaflet-control-geocoder": "^3.1.0",
     "morgan": "^1.10.0",
     "mssql": "^11.0.1",
     "sequelize": "^6.37.5",

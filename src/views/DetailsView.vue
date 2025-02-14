@@ -2,7 +2,9 @@
     <div class="details-container">
         <div v-if="location" class="details">
             <h1>{{ location.title }}</h1>
-            <p>{{ location.description }}</p><br>
+            <p>{{ location.description }}</p>
+            <p>By: {{ location.city}}</p>
+            <br>
             <img :src="getIconUrl(location.category)" alt="Category Icon" class="category-icon" />
             <img :src="favorite ? '/icons/heartred.png' : '/icons/heart.png'" alt="Favorite Icon" class="favorite" @click="toggleFavorite" />
             <MapDetailsComponent :location="location" />

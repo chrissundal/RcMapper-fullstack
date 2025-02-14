@@ -1,16 +1,10 @@
 <template>
   <div class="home-view">
-    <h3>Home</h3>
-
-    <div v-if="users">
-      <ul>
-        <li v-for="user in users" :key="user.id">{{ user.firstname }}</li>
-      </ul>
-    </div>
-
-    <div v-if="user">
-      <h4>Fetched User with ID {{user.id}}</h4>
-      <p>{{ user.firstname }} {{ user.lastname }}</p>
+      <div v-if="!openChat">
+          <button @click="ToggleChat">Chat</button>
+      </div>
+    <div v-if="openChat">
+        <chatComponent @closeChat="ToggleChat"/>
     </div>
   </div>
 </template>
@@ -18,20 +12,24 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import fetchUsers from "@/components/fetch/fetchUsers.js";
+import chatComponent from "@/components/chatComponent.vue";
 
 const store = useStore();
-const users = ref([]);
+const openChat = ref(false);
 const user = ref({});
+const ToggleChat = () => {
+    openChat.value = !openChat.value;
+}
 
 onMounted(async() => {
-    users.value = await fetchUsers();
     user.value = store.state.user;
 });
+
 </script>
 
 <style scoped>
 .home-view {
+    margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;

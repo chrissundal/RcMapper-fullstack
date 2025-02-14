@@ -36,6 +36,10 @@ const Location = sequelize.define('Location', {
     type: DataTypes.STRING(100),
     allowNull: true,
   },
+city: {
+  type: DataTypes.STRING(50),
+    allowNull: true,
+},
 }, {
   timestamps: false,
   tableName: 'Locations',

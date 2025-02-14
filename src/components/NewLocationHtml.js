@@ -1,4 +1,6 @@
-﻿let lat;
+﻿import getCityName from "@/components/fetch/fetchCity.js";
+
+let lat;
 let long;
 let User;
 
@@ -33,6 +35,7 @@ function extracted(e, user) {
 
 window.postNewLocation = async (event) => {
     event.preventDefault();
+    let city = await getCityName(lat, long);
     let newLoc = {
         locationId: null,
         userId: User.id,
@@ -41,7 +44,8 @@ window.postNewLocation = async (event) => {
         title: window.newTitle,
         description: window.description,
         createdAt: new Date(),
-        category: window.category
+        category: window.category,
+        city: city,
     };
     await handlePostNewLocation(newLoc);
 };

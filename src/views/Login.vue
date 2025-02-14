@@ -61,6 +61,7 @@ const CloseRegister = () => {
     font-weight: bold;
 }
 .login-container img{
+    width: 90vw;
     max-width: 500px;
     border-radius: 10px;
 }

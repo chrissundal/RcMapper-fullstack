@@ -7,6 +7,7 @@ import sequelize from './config/database.js';
 import Location from './models/Location.js';
 import User from './models/User.js';
 import Favorites from "./models/Favorites.js";
+import Chat from "./models/Chat.js";
 
 const app = express();
 const port = 3000;
@@ -22,6 +23,31 @@ app.get('/api/favorites/:id', (req, res) => {
             console.error(err);
         });
 });
+app.get('/api/chats', async (req, res) => {
+    const {category} = req.query;
+    try {
+        let chats;
+        let sortedChats;
+        if (category) {
+            chats = await Chat.findAll({where: {category}});
+            sortedChats = chats.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        }
+        if (chats.length > 50) {
+            const oldestChats = sortedChats.slice(-10);
+            for (let chat of oldestChats) {
+                await Chat.destroy({ where: { chatId: chat.chatId } });
+            }
+            if (category) {
+                chats = await Chat.findAll({where: {category}, order: [['createdAt', 'DESC']]});
+            }
+        }
+        res.json(chats);
+    } catch (error) {
+        console.error('Error fetching chats:', error);
+        res.status(500).json({error: 'Internal server error'});
+    }
+});
+
 app.get('/api/locations', async (req, res) => {
     const { category } = req.query;
     let categoryQuery = {};
@@ -92,6 +118,15 @@ app.post('/api/locations', async (req, res) => {
             res.status(500).send('Server error');
         })
 })
+app.post('/api/chats', async (req, res) => {
+    Chat.create(req.body)
+        .then(chat => {
+        res.status(201).json(chat);
+    })
+        .catch((err) => {
+            res.status(500).send('Server error');
+        })
+})
 app.post('/api/users', async (req, res) => {
     try {
         const existingUser = await User.findOne({ where: {username: req.body.username}});
@@ -125,10 +160,19 @@ app.delete('/api/favorites', (req, res) => {
         });
 });
 app.delete('/api/locations/:id', async (req, res) => {
+    Favorites.destroy({ where: { locationId: req.params.id } }).catch(err => res.status(500).send('Server error'));
     Location.destroy({ where: { locationId: req.params.id } })
         .then(() => {
         res.status(200).send('Sted slettet');
     }).catch(err => {
+        res.status(500).send('Server error');
+    })
+})
+app.delete('/api/chats/:id', async (req, res) => {
+    Chat.destroy({ where: { chatId: req.params.id } })
+        .then(() => {
+            res.status(200).send('Sted slettet');
+        }).catch(err => {
         res.status(500).send('Server error');
     })
 })

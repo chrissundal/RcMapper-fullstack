@@ -127,7 +127,7 @@ onUnmounted(() => {
 
 <style>
 #map {
-    height: 80vh;
+    height: 75vh;
     width: 90vw;
     border-radius: 10px;
     font-family: "Agency FB";

@@ -15,6 +15,8 @@ const port = 3000;
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
+
+
 app.get('/api/favorites/:id', (req, res) => {
     Favorites.findAll({ where: { userId: req.params.id } })
         .then(favorites => res.json(favorites))

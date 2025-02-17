@@ -9,9 +9,9 @@ const store = useStore();
   <header v-if="store.state.user !== null">
       <h2>RcMapper</h2>
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/profile">Profile</RouterLink>
-        <RouterLink to="/map">Map</RouterLink>
+        <RouterLink to="/">Hjem</RouterLink>
+        <RouterLink to="/profile">Profil</RouterLink>
+        <RouterLink to="/map">Kart</RouterLink>
       </nav>
   </header>
 
@@ -20,7 +20,7 @@ const store = useStore();
 
 <style scoped>
 header {
-  max-height: 100px;
+  max-height: 60px;
 }
 header h2 {
     text-align: center;

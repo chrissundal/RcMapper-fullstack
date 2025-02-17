@@ -2,12 +2,16 @@
     <div class="details-container">
         <div v-if="location" class="details">
             <h1>{{ location.title }}</h1>
-            <p>{{ location.description }}</p>
-            <p>By: {{ location.city}}</p>
-            <br>
+            <p class="details-city">By: {{ location.city}}</p>
             <img :src="getIconUrl(location.category)" alt="Category Icon" class="category-icon" />
             <img :src="favorite ? '/icons/heartred.png' : '/icons/heart.png'" alt="Favorite Icon" class="favorite" @click="toggleFavorite" />
             <MapDetailsComponent :location="location" />
+            <div class="location-info-container">
+                <WeatherComponent :location="location" />
+                <div class="location-description">
+                    <p>{{ location.description }}</p>
+                </div>
+            </div>
             <p>Opprettet av: {{ user.username }}</p>
             <span class="details-date">{{ new Date(location.createdAt).toLocaleString() }}</span>
         </div>
@@ -27,6 +31,7 @@ import RcIcons from "@/components/RcIcons.js";
 import fetchFavorites from "@/components/fetch/fetchFavorites.js";
 import {useStore} from "vuex";
 import axios from "axios";
+import WeatherComponent from "@/components/WeatherComponent.vue";
 
 
 const route = useRoute();
@@ -74,35 +79,68 @@ const getIconUrl = (category) => {
 </script>
 
 <style scoped>
+.location-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.location-description {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background: #30c0ff;
+    border-radius: 10px;
+    min-width: 26vw;
+    min-height: 10vh;
+    height: auto;
+    color: white;
+    padding: 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-top: 0px;
+}
+
 .details {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: #444;
-    margin: 20px;
+    margin: 10px;
     padding: 10px;
     border-radius: 10px;
-    width: 80vw;
-    height: 70vh;
+    width: 90vw;
+    max-width: 700px;
+    height: auto;
     position: relative;
     font-family: "Agency FB";
     font-weight: bold;
 }
+
 .details-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
+
 .details-container p {
     font-size: 17px;
+    padding: 0;
 }
+
 .details-date {
     font-style: italic;
-    font-size: 10px;
+    font-size: 11px;
     font-family: "Agency FB";
 }
+
 .category-icon {
     height: 50px;
     width: 50px;
@@ -110,12 +148,18 @@ const getIconUrl = (category) => {
     top: 15px;
     left: 15px;
 }
+
 .favorite {
     height: 50px;
     width: 50px;
     position: absolute;
     top: 15px;
     right: 15px;
+    cursor: pointer;
+}
+
+.details-city {
+    margin-top: 0px;
 }
 </style>
 

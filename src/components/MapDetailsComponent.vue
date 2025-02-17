@@ -41,7 +41,7 @@ onUpdated(() => {
 
 <style scoped>
 #map {
-    height: 100%;
+    height: 40vh;
     width: 100%;
 }
 </style>

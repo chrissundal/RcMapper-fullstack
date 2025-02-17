@@ -4,8 +4,8 @@
             <table class="favorites-table">
                 <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>City</th>
+                    <th>Sted</th>
+                    <th>By</th>
                 </tr>
                 </thead>
                 <tbody>

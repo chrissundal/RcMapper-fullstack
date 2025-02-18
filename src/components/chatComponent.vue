@@ -27,7 +27,6 @@
             <input type="text" v-model="message" placeholder="Skriv din melding her..." />
             <button @click="sendChat">Send</button>
         </div>
-        <button @click="closeChatComponent" class="chat-close">X</button>
     </div>
 </template>
 
@@ -53,9 +52,7 @@ const deleteChatpost = async (id) => {
         console.error(error);
     }
 }
-const closeChatComponent = () => {
-    emit("closeChat");
-}
+
 const sendChat = async () => {
     let newChat = {
         username: store.state.user.username,
@@ -123,28 +120,21 @@ h3 {
 }
 .chats {
     background: white;
-    width: 90vw;
-    height: 50vh;
-    max-height: 50vh;
+    width: 85vw;
+    max-width: 700px;
+    height: 55vh;
+    max-height: 60vh;
     overflow-y: auto;
     border-radius: 10px;
 }
-.chat-close {
-    margin: 10px;
-    border: none;
-    border-radius: 50%;
-    height: 35px;
-    width: 35px;
-}
+
 .chat-container {
     font-family: "Agency FB";
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: rgba(197, 195, 195, 0.65);
-    padding: 10px;
-    border-radius: 10px;
+
 }
 input {
     margin-bottom: 10px;

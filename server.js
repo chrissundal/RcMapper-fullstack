@@ -84,6 +84,12 @@ app.get('/api/users', async (req, res) => {
         res.status(500).send('Server error');
     })
 });
+app.put('/api/users', async (req, res) => {
+        User.update(req.body, {where: { id: req.body.id }})
+            .then((updatedUser) => { res.json(updatedUser); })
+            .catch(err => { res.status(500).send('Server error'); })
+});
+
 app.get('/api/users/:id', async (req, res) => {
     User.findByPk(req.params.id)
     .then((user) => {

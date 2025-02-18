@@ -3,6 +3,7 @@ body {
   color: gray;
   font-family: "Agency FB";
   font-weight: bold;
+  padding: 5px;
 }
 
 #app {
@@ -53,7 +54,6 @@ button:hover {
   body {
     display: flex;
     place-items: center;
-    font-family: "Glossy Sheen";
   }
 
   #app {
@@ -61,6 +61,6 @@ button:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0 2rem;
+    
   }
 }

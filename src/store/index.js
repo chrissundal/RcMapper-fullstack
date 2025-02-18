@@ -18,6 +18,7 @@ export default createStore({
         },
         logout({ commit }) {
             commit('clearUser');
+            localStorage.removeItem('token');
         },
     },
 });

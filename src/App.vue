@@ -9,7 +9,7 @@ const store = useStore();
   <header v-if="store.state.user !== null">
       <h2>RcMapper</h2>
       <nav>
-        <RouterLink to="/">Hjem</RouterLink>
+        <RouterLink to="/">Chat</RouterLink>
         <RouterLink to="/profile">Profil</RouterLink>
         <RouterLink to="/map">Kart</RouterLink>
       </nav>

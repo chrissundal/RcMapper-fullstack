@@ -1,11 +1,6 @@
 <template>
   <div class="home-view">
-      <div v-if="!openChat">
-          <button @click="ToggleChat">Chat</button>
-      </div>
-    <div v-if="openChat">
-        <chatComponent @closeChat="ToggleChat"/>
-    </div>
+        <chatComponent />
   </div>
 </template>
 
@@ -15,11 +10,9 @@ import { useStore } from 'vuex';
 import chatComponent from "@/components/chatComponent.vue";
 
 const store = useStore();
-const openChat = ref(false);
+
 const user = ref({});
-const ToggleChat = () => {
-    openChat.value = !openChat.value;
-}
+
 
 onMounted(async() => {
     user.value = store.state.user;
@@ -34,10 +27,9 @@ onMounted(async() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+    background: lightgray;
+    border-radius: 10px;
+    padding: 10px;
 }
-h3 {
-    text-align: center;
-    font-family: "Glossy Sheen";
-    margin: 20px;
-}
+
 </style>

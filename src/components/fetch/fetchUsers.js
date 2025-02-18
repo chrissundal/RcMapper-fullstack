@@ -1,6 +1,6 @@
 ﻿import axios from "axios";
 
-const fetchUsers = () => {
+const fetchUsers = async () => {
     return axios.get('https://localhost:3000/api/users')
     .then(res => res.data)
     .catch(error => {

@@ -47,7 +47,8 @@ const toggleBanned = async (user) => {
 }
 const getAllUsers = async () => {
     try {
-        users.value = await fetchUsers();
+        let unSortedUsers = await fetchUsers()
+        users.value = unSortedUsers.sort((a, b) => a.username.localeCompare(b.username))
     } catch (error) {
         console.log(error.message);
     }

@@ -1,11 +1,11 @@
 ﻿<template>
     <div class="profile-container">
-        <h3>{{user.firstname}} {{user.lastname}}</h3>
         <div class="profile-btn" v-if="!isEditAdmin && !isEditUser">
             <button @click="logout">Logg ut</button>
             <button @click="toggleEditUser">Endre</button>
             <button v-if="user.admin" @click="toggleEditAdmin">Endre brukere</button>
         </div>
+        <h3>{{user.firstname}} {{user.lastname}}</h3>
         <div v-if="isEditUser" class="editUser">
             <EditUserComponent @toggleUser="toggleEditUser"/>
         </div>
@@ -66,21 +66,29 @@ h3 {
     align-items: center;
     background: lightgray;
     border-radius: 10px;
-    margin-top: 10px;
+
     padding: 10px;
 }
 .profile-btn {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 5px;
+    height: 40px;
 }
 .profile-btn button {
-    width: 10vw;
-    min-width: 100px;
-    max-width: 170px;
+    width: 17vw;
+    max-width: 120px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
+    height: 30px;
+    transition: 0.4s ease;
 }
 .profile-container {
+    margin-top: 10px;
     display: flex;
     justify-content: center;
     align-items: center;

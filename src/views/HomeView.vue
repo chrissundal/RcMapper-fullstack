@@ -22,13 +22,10 @@ onMounted(async() => {
 
 <style scoped>
 .home-view {
-    margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-    background: lightgray;
-    border-radius: 10px;
     padding: 10px;
 }
 

@@ -1,6 +1,4 @@
 ﻿<template>
-    <div class="chat-container">
-        <h3>{{categoryName}} chatrom</h3>
         <div class="filter-buttons">
             <button
                 v-for="filter in filters.slice(0, -1)"
@@ -11,12 +9,13 @@
                 {{ filter.label }}
             </button>
         </div>
+    <div class="chat-container">
         <div v-if="chats.length" class="chats">
             <div v-for="chat in chats" :key="chat.id" :class="['chat-item', { 'own-chat': chat.username === store.state.user.username }]" >
-                <p><strong style="font-size: large; color: black">{{ chat.username }}:</strong> {{ chat.message }}</p>
-                <p class="date-chat">{{new Date(chat.createdAt).toLocaleString()}}</p>
-                <div v-if="chat.username === store.state.user.username || store.state.user.admin">
-                    <div class="delete-chat" @click="deleteChatpost(chat.chatId)"></div>
+                <div>
+                    <div class="chat-text"><strong style="color: black">{{ chat.username }}:</strong> {{ chat.message }}</div>
+                    <div v-if="chat.username === store.state.user.username || store.state.user.admin" class="delete-chat" @click="deleteChatpost(chat.chatId)"></div>
+                    <div class="date-chat">{{new Date(chat.createdAt).toLocaleString()}}</div>
                 </div>
             </div>
         </div>
@@ -91,39 +90,61 @@ onMounted(fetchChats);
 <style scoped>
 .filter-buttons {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    height: 40px;
 }
-h3 {
-    color: white
+.filter-buttons button {
+    width: 17vw;
+    max-width: 120px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    height: 30px;
+    transition: 0.4s ease;
+}
+.filter-buttons button:hover {
+    transform: scale(1.05);
 }
 .filter-buttons button.active {
-    background-color: #30c0ff;
     color: white;
 }
 .filter-buttons button.active:hover {
     transform: scale(1);
     cursor: default;
 }
+.filter-buttons button:disabled {
+    background: gray;
+}
+h3 {
+    color: white
+}
+.date-chat {
+    font-size: 8px;
+    text-align: center;
+    margin-bottom: 0;
+}
+.chat-text {
+    width: 92%;
+}
 .chat-item {
     margin-bottom: 1px;
-    padding: 10px;
+    padding: 10px 10px 5px 10px;
     border-bottom: 1px solid #ddd;
+    position: relative;
 }
 .own-chat {
-    margin-bottom: 1px;
-    padding: 10px;
     color: white;
-    border-bottom: 1px solid #ddd;
     background-color: #30c0ff;
 }
 .chats {
     background: white;
-    width: 85vw;
-    max-width: 700px;
-    height: 55vh;
-    max-height: 60vh;
+    width: 100%;
+    height: 70vh;
+    max-height: 70vh;
     overflow-y: auto;
     border-radius: 10px;
 }
@@ -134,18 +155,19 @@ h3 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+    width: 90vw;
+    max-width: 770px;
+    padding: 10px;
 }
 input {
-    margin-bottom: 10px;
-    margin-top: 10px;
-    width: 60vw;
+    width: 65vw;
+    max-width: 600px;
     border: none;
 }
 button {
     border: none;
     outline: none;
-    width: 13vw;
+    width: 15vw;
     max-width: 150px;
     font-size: 0.9em;
     display: flex;
@@ -153,16 +175,20 @@ button {
     align-items: center;
 }
 .send-chat {
+    padding: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
 }
 .send-chat button {
-    width: 10vw;
+    width: 18vw;
 }
 
 .delete-chat {
+    position: absolute;
+    right: 10px;
+    top: 10px;
     width: 25px;
     height: 25px;
     transition: 0.3s ease;
@@ -178,10 +204,6 @@ button {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-}
-.date-chat {
-    font-size: 12px;
-    font-style: italic;
 }
 </style>
 

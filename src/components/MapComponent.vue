@@ -25,7 +25,6 @@ import deleteLocation from '@/components/delete/deleteLocation.js';
 import { useStore } from 'vuex';
 import postLocation from "@/components/post/postLocation.js";
 import filters from "@/components/CategoryFilters.js";
-import axios from "axios";
 
 const store = useStore();
 const mapContainer = ref(null);
@@ -51,9 +50,6 @@ const initializeMap = (latitude, longitude) => {
         fillOpacity: 0.6,
     })
         .addTo(map)
-        .bindPopup('Du er her')
-        .openPopup();
-
     markersGroup.value = L.layerGroup().addTo(map);
     fetchLocations(map, store.state.user, markersGroup.value, filter);
 
@@ -74,8 +70,6 @@ const applyFilter = (filter) => {
 
 window.handleDeleteLocation = async (id) => {
     let filter = {};
-    let locationId = id;
-    let userId = store.state.user.id;
     if(confirm('Er du sikker?')) {
         const success = await deleteLocation(id);
         if (success) {
@@ -93,8 +87,16 @@ window.handlePostNewLocation = async (newLoc) => {
     popup.close();
 };
 
-window.navigateToDetails = (id) => {
-    router.push(`/details/${id}`);
+window.navigateToDetails = (id,title) => {
+    router.push({
+        name: 'details',
+        params: {
+            place: title,
+        },
+        query: {
+            id: id,
+        }
+    });
 };
 
 onMounted(() => {

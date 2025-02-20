@@ -6,14 +6,17 @@
             <button v-if="user.admin" @click="toggleEditAdmin">Endre brukere</button>
         </div>
         <h3>{{user.firstname}} {{user.lastname}}</h3>
-        <div v-if="isEditUser" class="editUser">
-            <EditUserComponent @toggleUser="toggleEditUser"/>
-        </div>
-        <div v-if="isEditAdmin" class="editUser">
-            <EditAdminUsersComponent @toggleAdmin="toggleEditAdmin"/>
-        </div>
+        <Transition name="fade">
+            <div v-if="isEditUser" class="editUser">
+                <EditUserComponent @toggleUser="toggleEditUser"/>
+            </div>
+        </Transition>
+        <Transition name="fade">
+            <div v-if="isEditAdmin" class="editUser">
+                <EditAdminUsersComponent @toggleAdmin="toggleEditAdmin"/>
+            </div>
+        </Transition>
         <div class="favorite-container">
-
             <FavoriteComponent :user="user" />
         </div>
     </div>
@@ -47,11 +50,18 @@ const toggleEditAdmin = () => {
 onMounted(async () => {
     user.value = store.state.user;
 })
-
 </script>
 
-
 <style scoped>
+.fade-enter-active, .fade-leave-active {
+    transition: 600ms ease all;
+}
+.fade-enter-from, .fade-leave-to{
+    opacity: 0;
+}
+.fade-enter-active {
+    transition: opacity 0.5s ease-in-out 0.2s;
+    }
 h3 {
     text-align: center;
     font-family: "Glossy Sheen";

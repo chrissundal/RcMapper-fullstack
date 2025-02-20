@@ -27,7 +27,7 @@ const fetchLocations = async (map, user, markersGroup, filters = {}) => {
                 <div class="locationPopup">
                   ${checkDelete}
                   <h3>${location.title}</h3>
-                  <button class="details-button" onclick="navigateToDetails(${location.locationId})">Detaljer</button>
+                  <button class="details-button" onclick="navigateToDetails(${location.locationId},'${location.title}')">Detaljer</button>
                 </div>
             `);
             markersGroup.addLayer(marker);

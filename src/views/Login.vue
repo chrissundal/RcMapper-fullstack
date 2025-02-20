@@ -38,7 +38,7 @@ const login = () => {
     })
     .then(response => {
         store.dispatch('login', response.data);
-        router.push(`/`);
+        router.push(`/map`);
     })
     .catch(error => {
         errorMessage.value = error.response.data;

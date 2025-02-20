@@ -3,8 +3,8 @@
         <div v-if="weather" class="weather-container">
             <i :class="`owi owi-${weather.weather[0].icon}`"></i>
             <div class="weather-info">
-                <span>Temperatur: {{ weather.main.temp }}°C</span>
-                <span>Føles som: {{weather.main.feels_like}}°C</span>
+                <span>Temperatur: {{Math.round(weather.main.temp) }}°C</span>
+                <span>Føles som: {{Math.round(weather.main.feels_like)}}°C</span>
                 <div>
                 <span>Vind: {{weather.wind.speed}}m/s</span> <span style="font-size: large">{{windDirection(weather.wind.deg)}}</span>
                 </div>

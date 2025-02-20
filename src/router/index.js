@@ -9,33 +9,52 @@ import store from '@/store';
 const routes = [
     {
         path: '/',
-        name: 'home',
+        redirect: '/chat',
+    },
+    {
+        path: '/chat',
+        name: 'chat',
         component: HomeView,
-        meta: { requiresAuth: true },
+        meta: {
+            requiresAuth: true,
+            title: 'Chat',
+        },
     },
     {
         path: '/profile',
         name: 'profile',
         component: ProfileView,
-        meta: { requiresAuth: true },
+        meta: {
+            requiresAuth: true,
+            title: 'Profil',
+        },
     },
     {
         path: '/map',
         name: 'map',
         component: MapView,
-        meta: { requiresAuth: true },
+        meta: {
+            requiresAuth: true,
+            title: 'Kart',
+        },
     },
     {
-        path: '/details/:id',
+        path: '/details/:place',
         name: 'details',
         component: DetailsView,
         props: true,
-        meta: { requiresAuth: true },
+        meta: {
+            requiresAuth: true,
+            title: 'Details',
+        },
     },
     {
         path: '/login',
         name: 'login',
         component: Login,
+        meta: {
+            title: 'Login',
+        },
     }
 ];
 
@@ -53,6 +72,7 @@ router.beforeEach((to, from, next) => {
     } else {
         next();
     }
+    document.title = `${to.params.place ? to.params.place : to.meta.title} | RcMapper`;
 });
 
 export default router;

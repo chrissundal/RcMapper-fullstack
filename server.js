@@ -8,6 +8,7 @@ import Location from './models/Location.js';
 import User from './models/User.js';
 import Favorites from "./models/Favorites.js";
 import Chat from "./models/Chat.js";
+import Ratings from "./models/Rating.js";
 
 const app = express();
 const port = 3000;
@@ -20,6 +21,14 @@ app.use(express.json());
 app.get('/api/favorites/:id', (req, res) => {
     Favorites.findAll({ where: { userId: req.params.id } })
         .then(favorites => res.json(favorites))
+        .catch(err => {
+            res.status(500).send('Server error');
+            console.error(err);
+        });
+});
+app.get('/api/ratings/:id', (req, res) => {
+    Ratings.findAll({ where: { locationId: req.params.id } })
+        .then(rating => res.json(rating))
         .catch(err => {
             res.status(500).send('Server error');
             console.error(err);
@@ -122,6 +131,15 @@ app.post('/api/locations', async (req, res) => {
         .then(newLocation => {
         res.status(201).json(newLocation);
     })
+        .catch((err) => {
+            res.status(500).send('Server error');
+        })
+})
+app.post('/api/ratings', async (req, res) => {
+    Ratings.create(req.body)
+        .then(newRating => {
+            res.status(201).json(newRating);
+        })
         .catch((err) => {
             res.status(500).send('Server error');
         })

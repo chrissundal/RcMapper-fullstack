@@ -5,6 +5,7 @@
             <p class="details-city">By: {{ location.city}}</p>
             <img :src="getIconUrl(location.category)" alt="Category Icon" class="category-icon" />
             <img :src="favorite ? '/icons/heartred.png' : '/icons/heart.png'" alt="Favorite Icon" class="favorite" @click="toggleFavorite" />
+            <div class="ratingScore" v-if="averageRating">{{ averageRating.toFixed(1) }}</div>
             <MapDetailsComponent :location="location" />
             <div class="location-info-container">
                 <WeatherComponent :location="location" />
@@ -12,6 +13,15 @@
                     <p>{{ location.description }}</p>
                 </div>
             </div>
+
+            <div class="rating-container">
+                <div class="stars" v-if="!hasRated">
+                    <span v-for="star in 5" :key="star" @click="rateLocation(star)">
+                        <i :class="star <= rating ? 'filled-star' : 'empty-star'">&#9733;</i>
+                    </span>
+                </div>
+            </div>
+
             <p>Opprettet av: {{ user.username }}</p>
             <span class="details-date">{{ new Date(location.createdAt).toLocaleString() }}</span>
         </div>
@@ -23,7 +33,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import {useRoute} from 'vue-router';
 import MapDetailsComponent from "@/components/MapDetailsComponent.vue";
 import fetchLocationDetails from "@/components/fetch/fetchSingleLocation.js";
 import fetchSingleUser from "@/components/fetch/fetchSingleUser.js";
@@ -32,33 +42,54 @@ import fetchFavorites from "@/components/fetch/fetchFavorites.js";
 import {useStore} from "vuex";
 import axios from "axios";
 import WeatherComponent from "@/components/WeatherComponent.vue";
-
+import PostRating from "@/components/post/postRating.js";
+import fetchRatings from "@/components/fetch/fetchRatings.js";
 
 const route = useRoute();
 const location = ref({});
 const store = useStore();
 const user = ref({});
 const favorite = ref(null);
+const rating = ref(0);
+const averageRating = ref(null);
+const ratings = ref([]);
+const hasRated = ref(false);
 
 onMounted(async () => {
+
     try {
-        location.value = await fetchLocationDetails(route.params.id);
+        location.value = await fetchLocationDetails(route.query.id);
         if (location.value) {
             user.value = await fetchSingleUser(location.value.userId);
         }
         const favoriteData = await fetchFavorites(store.state.user.id)
         for (let fav of favoriteData) {
-            if (fav.locationId == route.params.id) {
+            if (fav.locationId == route.query.id) {
                 favorite.value = true;
                 break;
             }
         }
+        await fetchAllRatings()
     } catch (error) {
         console.error('Feil ved henting av location:', error);
     }
 });
+const fetchAllRatings = async () => {
+    let score = 0;
+    ratings.value = await fetchRatings(route.query.id)
+    if (ratings.value.length > 0) {
+    for (let r of ratings.value) {
+        score += r.rating;
+        if (r.userId == store.state.user.id) {
+            hasRated.value = true;
+        }
+    }
+    averageRating.value = score / ratings.value.length;
+    }
+}
+
 const toggleFavorite = async () => {
-    const locationId = route.params.id;
+    const locationId = route.query.id;
     const userId = store.state.user.id;
 
     try {
@@ -75,6 +106,17 @@ const toggleFavorite = async () => {
 };
 const getIconUrl = (category) => {
     return RcIcons[category] || RcIcons['default'];
+};
+const rateLocation = async (star) => {
+    rating.value = star;
+    let newrating = {
+        userId: store.state.user.id,
+        locationId: route.query.id,
+        rating: rating.value,
+        createdAt: new Date(),
+    }
+    await PostRating(newrating)
+    await fetchAllRatings()
 };
 </script>
 
@@ -160,6 +202,35 @@ const getIconUrl = (category) => {
 
 .details-city {
     margin-top: 0px;
+}
+.rating-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    font-size: x-large;
+}
+
+.stars {
+    display: flex;
+    gap: 5px;
+}
+
+.filled-star {
+    color: gold;
+    cursor: pointer;
+}
+
+.empty-star {
+    color: lightgray;
+    cursor: pointer;
+}
+.ratingScore {
+    position: absolute;
+    top: 80px;
+    left: 25px;
+    color: gold;
+    font-size: x-large;
 }
 </style>
 

@@ -1,24 +1,55 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import { useStore } from 'vuex';
-
-const store = useStore();
-</script>
-
 <template>
   <header v-if="store.state.user !== null">
-      <h2>RcMapper</h2>
+      <h2>RcMapper<span style="font-size: small">{{headerText}}</span></h2>
+
       <nav>
-        <RouterLink to="/">Chat</RouterLink>
+        <RouterLink to="/chat">Chat</RouterLink>
         <RouterLink to="/profile">Profil</RouterLink>
         <RouterLink to="/map">Kart</RouterLink>
       </nav>
   </header>
 
-  <RouterView />
+  <RouterView v-slot="{ Component }">
+      <Transition name="page" mode="out-in">
+          <Component :is="Component"/>
+      </Transition>
+  </RouterView>
 </template>
 
+<script setup>
+import { RouterLink, RouterView } from 'vue-router';
+import { useStore } from 'vuex';
+import { ref, watch, computed } from 'vue';
+
+const store = useStore();
+const headerText = ref('');
+
+const user = computed(() => store.state.user);
+
+const checkAdmin = () => {
+    headerText.value = user.value && user.value.admin ? ': admin' : '';
+};
+
+watch(user, (newUser) => {
+    if (newUser !== null) {
+        checkAdmin();
+    } else {
+        headerText.value = '';
+    }
+}, { immediate: true });
+
+if (user.value !== null) {
+    checkAdmin();
+}
+</script>
+
 <style scoped>
+.page-enter-active, .page-leave-active {
+    transition: 600ms ease all;
+}
+.page-enter-from, .page-leave-to {
+    opacity: 0;
+}
 header {
   max-height: 60px;
 }

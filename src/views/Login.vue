@@ -37,8 +37,13 @@ const login = () => {
         password: password.value
     })
     .then(response => {
-        store.dispatch('login', response.data);
-        router.push(`/map`);
+        if(response.data.banned){
+            errorMessage.value = "Du er ikke velkommen her"
+            return;
+        } else {
+            store.dispatch('login', response.data);
+            router.push(`/map`);
+        }
     })
     .catch(error => {
         errorMessage.value = error.response.data;

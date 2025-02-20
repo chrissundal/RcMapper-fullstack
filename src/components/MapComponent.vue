@@ -1,5 +1,5 @@
 ﻿<template>
-    <div>
+    <div class="map-container">
         <div class="filter-container">
             <button
                 v-for="filter in filters"
@@ -134,6 +134,7 @@ onUnmounted(() => {
     border-radius: 10px;
     font-family: "Agency FB";
     font-weight: bold;
+    margin: 0;
 }
 .locationPopup {
     display: flex;
@@ -224,12 +225,14 @@ onUnmounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     gap: 5px;
     height: 40px;
+    width: 90vw;
 }
 .filter-container button {
-    width: 13vw;
+    width: 14vw;
     max-width: 150px;
     font-size: 0.9em;
     display: flex;
@@ -251,5 +254,12 @@ onUnmounted(() => {
 }
 .filter-container button:disabled {
     background: gray;
+}
+.map-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
 }
 </style>

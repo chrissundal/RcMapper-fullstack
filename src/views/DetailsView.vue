@@ -215,12 +215,13 @@ const rateLocation = async (star) => {
     display: flex;
     gap: 5px;
 }
-
+.stars :hover {
+    color: gold
+}
 .filled-star {
     color: gold;
     cursor: pointer;
 }
-
 .empty-star {
     color: lightgray;
     cursor: pointer;

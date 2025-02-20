@@ -1,13 +1,14 @@
 <template>
-  <header v-if="store.state.user !== null">
-      <h2>RcMapper<span style="font-size: small">{{headerText}}</span></h2>
-
-      <nav>
-        <RouterLink to="/chat">Chat</RouterLink>
-        <RouterLink to="/profile">Profil</RouterLink>
-        <RouterLink to="/map">Kart</RouterLink>
-      </nav>
-  </header>
+    <Transition name="page" v-if="store.state.user !== null">
+        <header>
+            <h2>RcMapper<span style="font-size: small">{{headerText}}</span></h2>
+            <nav>
+                <RouterLink to="/chat">Chat</RouterLink>
+                <RouterLink to="/profile">Profil</RouterLink>
+                <RouterLink to="/map">Kart</RouterLink>
+            </nav>
+        </header>
+    </Transition>
 
   <RouterView v-slot="{ Component }">
       <Transition name="page" mode="out-in">
@@ -51,7 +52,8 @@ if (user.value !== null) {
     opacity: 0;
 }
 header {
-  max-height: 60px;
+    max-height: 60px;
+    margin: 0;
 }
 header h2 {
     text-align: center;
@@ -86,6 +88,7 @@ nav a {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0;
 }
 
 nav a:first-of-type {

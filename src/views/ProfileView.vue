@@ -1,9 +1,9 @@
 ﻿<template>
     <div class="profile-container">
         <div class="profile-btn" v-if="!isEditAdmin && !isEditUser">
-            <button @click="logout">Logg ut</button>
+            <button @click="logout">Logout</button>
             <button @click="toggleEditUser">Endre</button>
-            <button v-if="user.admin" @click="toggleEditAdmin">Endre brukere</button>
+            <button v-if="user.admin" @click="toggleEditAdmin">Admin</button>
         </div>
         <h3>{{user.firstname}} {{user.lastname}}</h3>
         <Transition name="fade">
@@ -76,7 +76,6 @@ h3 {
     align-items: center;
     background: lightgray;
     border-radius: 10px;
-
     padding: 10px;
 }
 .profile-btn {
@@ -85,6 +84,7 @@ h3 {
     align-items: center;
     gap: 5px;
     height: 40px;
+    text-align: center;
 }
 .profile-btn button {
     width: 17vw;

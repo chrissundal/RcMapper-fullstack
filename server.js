@@ -16,18 +16,18 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
-app.delete('/api/chats/:id', chatController.deleteChat);
 app.get('/api/chats', chatController.getChats);
 app.post('/api/chats', chatController.postChat);
+app.delete('/api/chats/:id', chatController.deleteChat);
 
-app.delete('/api/favorites', favoriteController.deleteFavorite);
 app.get('/api/favorites/:id', favoriteController.getFavorites);
 app.post('/api/favorites', favoriteController.postFavorite);
+app.delete('/api/favorites', favoriteController.deleteFavorite);
 
-app.delete('/api/locations/:id', locationController.deleteLocation);
 app.get('/api/locations', locationController.getLocations);
 app.get('/api/locations/:id', locationController.getSingleLocation);
 app.post('/api/locations', locationController.postLocation);
+app.delete('/api/locations/:id', locationController.deleteLocation);
 
 app.get('/api/users', userController.getUsers);
 app.put('/api/users', userController.updateUser);
@@ -35,8 +35,8 @@ app.get('/api/users/:id', userController.getUserById);
 app.post('/api/login', userController.login);
 app.post('/api/users', userController.postUser);
 
-app.post('/api/ratings', ratingsController.postRating);
 app.get('/api/ratings/:id', ratingsController.getRatings);
+app.post('/api/ratings', ratingsController.postRating);
 
 const sslOptions = {
     key: fs.readFileSync('C:/Users/chris/OneDrive/Documents/GitHub/GETPrepared/localhost-key.pem'),

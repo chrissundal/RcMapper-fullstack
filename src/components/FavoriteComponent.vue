@@ -30,7 +30,7 @@ import fetchLocationDetails from "@/components/fetch/fetchSingleLocation.js";
 import { useRouter } from 'vue-router';
 import fetchFavorites from "@/components/fetch/fetchFavorites.js";
 import {useStore} from "vuex";
-import RcIcons from "@/components/RcIcons.js";
+import RcIcons from "@/components/helpers/RcIcons.js";
 
 const router = useRouter();
 const store = useStore();

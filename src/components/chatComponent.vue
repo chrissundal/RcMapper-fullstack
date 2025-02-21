@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import filters from "@/components/CategoryFilters.js";
+import filters from "@/components/helpers/CategoryFilters.js";
 import {ref, onMounted, watch} from "vue";
 import fetchChatByCategory from "@/components/fetch/fetchChatByCategory.js";
 import {useStore} from "vuex";

@@ -24,7 +24,7 @@ import extracted from '@/components/NewLocationHtml.js';
 import deleteLocation from '@/components/delete/deleteLocation.js';
 import { useStore } from 'vuex';
 import postLocation from "@/components/post/postLocation.js";
-import filters from "@/components/CategoryFilters.js";
+import filters from "@/components/helpers/CategoryFilters.js";
 
 const store = useStore();
 const mapContainer = ref(null);

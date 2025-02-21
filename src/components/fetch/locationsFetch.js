@@ -1,6 +1,6 @@
 ﻿import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import MapIcons from '../MapIcons.js';
+import MapIcons from '../helpers/MapIcons.js';
 import axios from 'axios';
 
 const fetchLocations = async (map, user, markersGroup, filters = {}) => {

@@ -8,6 +8,7 @@
                 <div>
                 <span>Vind: {{weather.wind.speed}}m/s</span> <span style="font-size: large">{{windDirection(weather.wind.deg)}}</span>
                 </div>
+                <span>{{weather.weather[0].description}}</span>
                 <span v-if="weather.rain">Nedbør: {{ weather.rain['1h'] }} mm</span>
                 <span v-else-if="weather.snow">Snøfall: {{ weather.snow['1h'] }} mm</span>
             </div>
@@ -21,7 +22,7 @@
 <script setup>
 import {onMounted, ref, watchEffect} from 'vue';
 import '@/assets/open-weather-icons.css';
-import windDirection from '@/components/windDirection.js'
+import windDirection from '@/components/helpers/windDirection.js'
 import getWeather from "@/components/fetch/fetchWeather.js";
 
 const props = defineProps({

@@ -34,13 +34,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import {useRoute} from 'vue-router';
+import {useStore} from "vuex";
+import axios from "axios";
 import MapDetailsComponent from "@/components/MapDetailsComponent.vue";
 import fetchLocationDetails from "@/components/fetch/fetchSingleLocation.js";
 import fetchSingleUser from "@/components/fetch/fetchSingleUser.js";
-import RcIcons from "@/components/RcIcons.js";
+import RcIcons from "@/components/helpers/RcIcons.js";
 import fetchFavorites from "@/components/fetch/fetchFavorites.js";
-import {useStore} from "vuex";
-import axios from "axios";
 import WeatherComponent from "@/components/WeatherComponent.vue";
 import PostRating from "@/components/post/postRating.js";
 import fetchRatings from "@/components/fetch/fetchRatings.js";

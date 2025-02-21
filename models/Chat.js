@@ -24,6 +24,10 @@ const Chat = sequelize.define('Chat', {
         defaultValue: DataTypes.NOW,
         allowNull: true,
     },
+    fileUrl: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
 }, {
     timestamps: false,
     tableName: 'Chat',

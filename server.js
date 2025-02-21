@@ -8,16 +8,22 @@ import userController from "./controllers/userController.js";
 import locationController from "./controllers/locationController.js";
 import favoriteController from "./controllers/favoriteController.js";
 import ratingsController from "./controllers/ratingsController.js";
+import path from "path";
+import { fileURLToPath } from 'url';
 
 const app = express();
 const port = 3000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/api/chats', chatController.getChats);
 app.post('/api/chats', chatController.postChat);
+app.post('/upload', chatController.upload.single('file'), chatController.uploadFile);
 app.delete('/api/chats/:id', chatController.deleteChat);
 
 app.get('/api/favorites/:id', favoriteController.getFavorites);

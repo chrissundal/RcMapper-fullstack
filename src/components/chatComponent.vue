@@ -13,7 +13,12 @@
         <div v-if="chats.length" class="chats">
             <div v-for="chat in chats" :key="chat.id" :class="['chat-item', { 'own-chat': chat.username === store.state.user.username }]" >
                 <div>
-                    <div class="chat-text"><strong style="color: black">{{ chat.username }}:</strong> {{ chat.message }}</div>
+                    <div class="chat-text">
+                        <strong style="color: black">{{ chat.username }}:</strong> {{ chat.message }}
+                    </div>
+                        <div v-if="chat.fileUrl" class="chatImage-container">
+                            <img :src="chat.fileUrl" alt="Uploaded image"/>
+                        </div>
                     <div v-if="chat.username === store.state.user.username || store.state.user.admin" class="delete-chat" @click="deleteChatpost(chat.chatId)"></div>
                     <div class="date-chat">{{new Date(chat.createdAt).toLocaleString()}}</div>
                 </div>
@@ -22,10 +27,16 @@
         <div v-else>
             <h3>No chats available...</h3>
         </div>
-        <div class="send-chat">
-            <input type="text" v-model="message" placeholder="Skriv din melding her..." />
-            <button @click="sendChat">Send</button>
-        </div>
+        <form @submit.prevent="sendChat">
+            <div class="send-chat">
+                <input type="file" @change="handleFileUpload" ref="fileInput" id="fileInput"/>
+                <label for="fileInput" class="file-label">+</label>
+                <div class="textSendChat">
+                    <input type="text" v-model="message" :placeholder="placeholderMessage"/>
+                    <button type="submit">Send</button>
+                </div>
+            </div>
+        </form>
     </div>
 </template>
 
@@ -36,13 +47,18 @@ import fetchChatByCategory from "@/components/fetch/fetchChatByCategory.js";
 import {useStore} from "vuex";
 import PostChat from "@/components/post/postChat.js";
 import deleteChat from "@/components/delete/deleteChat.js";
+import axios from "axios";
+import uploadFile from "@/components/post/uploadFile.js";
 
-const emit = defineEmits(['closeChat']);
+
 const store = useStore();
 const activeFilter = ref(filters[0].value);
 const categoryName = ref(filters[0].label)
 const chats = ref([]);
 const message = ref('')
+const file = ref(null);
+const fileInput = ref(null);
+const placeholderMessage = ref("Skriv din melding her...");
 const deleteChatpost = async (id) => {
     try {
         await deleteChat(id)
@@ -51,13 +67,29 @@ const deleteChatpost = async (id) => {
         console.error(error);
     }
 }
+const handleFileUpload = (event) => {
+    file.value = event.target.files[0];
+}
 
 const sendChat = async () => {
+    if (!message.value && !file.value) {
+        placeholderMessage.value = "Vennligst skriv inn en melding eller last opp bilde"
+        return;
+    }
+    let imageUrl = null;
+    if (file.value) {
+        imageUrl = await uploadFile(file.value);
+        file.value = null;
+        if (fileInput.value) {
+            fileInput.value.value = '';
+        }
+    }
     let newChat = {
         username: store.state.user.username,
         category: activeFilter.value,
         message: message.value,
-        createdAt: new Date()
+        createdAt: new Date(),
+        fileUrl: imageUrl,
     }
     try {
         await PostChat(newChat);
@@ -66,6 +98,7 @@ const sendChat = async () => {
         console.log(error);
     }
     message.value = "";
+    placeholderMessage.value = "Skriv din melding her...";
 }
 const setChat = async (filter) => {
     activeFilter.value = filter.value;
@@ -83,11 +116,25 @@ const fetchChats = async () => {
 
 watch(activeFilter, fetchChats);
 
-onMounted(fetchChats);
+onMounted(() => {
+    fetchChats()
+});
 
 </script>
 
 <style scoped>
+.chatImage-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: 5px;
+}
+.chatImage-container img{
+    border-radius: 10px;
+    height: 35vw;
+    max-height: 350px;
+}
 .filter-buttons {
     display: flex;
     justify-content: center;
@@ -143,8 +190,8 @@ h3 {
 .chats {
     background: white;
     width: 100%;
-    height: 70vh;
-    max-height: 70vh;
+    height: 69vh;
+    max-height: 69vh;
     overflow-y: auto;
     border-radius: 10px;
 }
@@ -159,11 +206,7 @@ h3 {
     max-width: 770px;
     padding: 10px;
 }
-input {
-    width: 65vw;
-    max-width: 600px;
-    border: none;
-}
+
 button {
     border: none;
     outline: none;
@@ -175,16 +218,56 @@ button {
     align-items: center;
 }
 .send-chat {
+    position: relative;
     padding: 5px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
-    gap: 5px;
+    max-width: 760px;
+}
+.send-chat input[type="text"] {
+    padding-left: 50px;
+    width: 65vw;
+    border: none;
+}
+.send-chat input[type="file"] {
+    display: none;
 }
 .send-chat button {
-    width: 18vw;
+    width: 17vw;
+}
+.textSendChat {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    width: 90vw;
+    max-width: 770px;
+    margin-bottom: 0;
 }
 
+.file-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 10px;
+    background-color: white;
+    font-size: x-large;
+    padding: 5px;
+    border: 1px solid lightgray;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    transition:background-color 0.4s ease;
+}
+
+.file-label:hover {
+    background-color: #30c0ff;
+    color: white;
+}
 .delete-chat {
     position: absolute;
     right: 10px;

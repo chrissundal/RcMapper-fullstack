@@ -10,9 +10,7 @@ import { useStore } from 'vuex';
 import chatComponent from "@/components/chatComponent.vue";
 
 const store = useStore();
-
 const user = ref({});
-
 
 onMounted(async() => {
     user.value = store.state.user;

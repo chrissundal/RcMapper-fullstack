@@ -1,6 +1,6 @@
 ﻿import User from "../models/User.js";
 import Favorites from "../models/Favorites.js";
-import Location from "../models/Location.js";
+import jwt from 'jsonwebtoken';
 
 const getUsers = async (req, res) => {
     User.findAll()
@@ -31,19 +31,22 @@ const getUserById = async (req, res) => {
             res.status(500).send('Server error');
         });
 }
+
 const login = async (req, res) => {
     User.findOne({ where: { username: req.body.username, password: req.body.password } })
         .then((user) => {
             if (user) {
-                res.json(user);
+                const token = jwt.sign({ id: user.id, username: user.username }, 'your_secret_key', { expiresIn: '24h' });
+                res.json({ user, token });
             } else {
                 res.status(404).send('Feil brukernavn eller passord');
             }
         })
         .catch(err => {
             res.status(500).send('Server error');
-        })
-}
+        });
+};
+
 const postUser = async (req, res) => {
     try {
         const existingUser = await User.findOne({ where: {username: req.body.username}});
@@ -57,12 +60,26 @@ const postUser = async (req, res) => {
     }
 }
 const deleteUser = async (req, res) => {
+    Favorites.destroy({ where: { userId: req.params.id }})
+        .catch(err => {
+            res.status(500).send('Kunne ikke slette favoritt');
+        })
     User.destroy({ where: { id: req.params.id } })
         .then(() => {
             res.status(200).send('Bruker slettet');
         }).catch(err => {
-        res.status(500).send('Server error');
+        res.status(500).send('Kunne ikke slette bruker');
     })
+}
+function authenticateToken(req, res, next) {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
 }
 export default {
     getUsers,
@@ -71,4 +88,5 @@ export default {
     login,
     postUser,
     deleteUser,
+    authenticateToken,
 }

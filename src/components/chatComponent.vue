@@ -47,7 +47,6 @@ import fetchChatByCategory from "@/components/fetch/fetchChatByCategory.js";
 import {useStore} from "vuex";
 import PostChat from "@/components/post/postChat.js";
 import deleteChat from "@/components/delete/deleteChat.js";
-import axios from "axios";
 import uploadFile from "@/components/post/uploadFile.js";
 
 const store = useStore();

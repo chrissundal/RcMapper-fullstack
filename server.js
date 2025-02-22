@@ -35,9 +35,10 @@ app.get('/api/locations/:id', locationController.getSingleLocation);
 app.post('/api/locations', locationController.postLocation);
 app.delete('/api/locations/:id', locationController.deleteLocation);
 
+app.get('/api/token', userController.authenticateToken, (req, res) => res.json(req.user));
 app.get('/api/users', userController.getUsers);
-app.put('/api/users', userController.updateUser);
 app.get('/api/users/:id', userController.getUserById);
+app.put('/api/users', userController.updateUser);
 app.post('/api/login', userController.login);
 app.post('/api/users', userController.postUser);
 app.delete('/api/users/:id', userController.deleteUser);

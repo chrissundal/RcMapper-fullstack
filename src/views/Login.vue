@@ -36,18 +36,20 @@ const login = () => {
         username: username.value,
         password: password.value
     })
-    .then(response => {
-        if(response.data.banned){
-            errorMessage.value = "Du er ikke velkommen her"
-            return;
-        } else {
-            store.dispatch('login', response.data);
-            router.push(`/map`);
-        }
-    })
-    .catch(error => {
-        errorMessage.value = error.response.data;
-    });
+        .then(response => {
+            if (response.data.banned) {
+                errorMessage.value = "Du er ikke velkommen her";
+                return;
+            } else {
+                const user = response.data.user;
+                const token = response.data.token;
+                store.dispatch('login', { user, token });
+                router.push(`/map`);
+            }
+        })
+        .catch(error => {
+            errorMessage.value = error.response.data;
+        });
 };
 const CloseRegister = () => {
     registerUser.value = false;
@@ -108,7 +110,6 @@ span:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
 }
 
 </style>

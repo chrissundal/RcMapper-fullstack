@@ -31,6 +31,10 @@ const User = sequelize.define('User', {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
+    favCategory: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+    }
 }, {
   timestamps: false,
   tableName: 'Users',

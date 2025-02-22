@@ -50,7 +50,6 @@ import deleteChat from "@/components/delete/deleteChat.js";
 import axios from "axios";
 import uploadFile from "@/components/post/uploadFile.js";
 
-
 const store = useStore();
 const activeFilter = ref(filters[0].value);
 const categoryName = ref(filters[0].label)
@@ -117,8 +116,12 @@ const fetchChats = async () => {
 watch(activeFilter, fetchChats);
 
 onMounted(() => {
-    fetchChats()
+    if (store.state.user.username) {
+        activeFilter.value = store.state.user.favCategory;
+        fetchChats();
+    }
 });
+
 
 </script>
 

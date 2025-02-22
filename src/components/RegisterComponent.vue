@@ -44,9 +44,7 @@ const register = () => {
 </script>
 
 <style scoped>
-.registration-buttons {
 
-}
 .submit-reg, .cancel-reg {
     width: 130px;
     height: 40px;

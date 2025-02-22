@@ -65,11 +65,13 @@ onMounted(async () => {
 h3 {
     text-align: center;
     font-family: "Glossy Sheen";
-    margin: 20px;
+    margin: 10px;
 }
 .editUser {
-    width: 100%;
-    height: 100%;
+    width: 90vw;
+    max-width: 800px;
+    min-height: 320px;
+    max-height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -77,6 +79,7 @@ h3 {
     background: lightgray;
     border-radius: 10px;
     padding: 10px;
+    overflow: hidden;
 }
 .profile-btn {
     display: flex;
@@ -106,7 +109,8 @@ h3 {
 }
 .favorite-container {
     margin-top: 10px;
-    width: 100%;
+    width: 90vw;
+    max-width: 800px;
     height: 100%;
     background: lightgray;
     border-radius: 10px;

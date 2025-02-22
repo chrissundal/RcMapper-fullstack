@@ -15,23 +15,45 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+const deleteChatAndImage = async (chatId) => {
+    try {
+        const chat = await Chat.findOne({ where: { chatId } });
+        if (!chat) {
+            console.error('Chat not found');
+            return false;
+        }
+        if (chat.fileUrl) {
+            const filePath = path.join('uploads', path.basename(chat.fileUrl));
+            fs.unlink(filePath, (err) => {
+                if (err) {
+                    console.error('Error deleting file:', err);
+                }
+            });
+        }
+        await Chat.destroy({ where: { chatId } });
+        return true;
+    } catch (error) {
+        console.error('Error deleting chat:', error);
+        return false;
+    }
+};
+
 const getChats = async (req, res) => {
     const { category } = req.query;
     try {
         let chats;
         let sortedChats;
         if (category) {
-            chats = await Chat.findAll({ where: { category } });
+            chats = await Chat.findAll({where: {category}});
             sortedChats = chats.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         }
         if (chats.length > 50) {
             const oldestChats = sortedChats.slice(-10);
             for (let chat of oldestChats) {
-                await Chat.destroy({ where: { chatId: chat.chatId } });
+                await deleteChatAndImage(chat.chatId)
             }
-            if (category) {
-                chats = await Chat.findAll({ where: { category }, order: [['createdAt', 'DESC']] });
-            }
+            chats = await Chat.findAll({where: {category}});
         }
         res.json(chats);
     } catch (error) {
@@ -39,36 +61,26 @@ const getChats = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
 const postChat = async (req, res) => {
-    Chat.create(req.body)
-        .then(chat => {
-            res.status(201).json(chat);
-        })
-        .catch((err) => {
-            res.status(500).send('Server error');
-        })
-}
+    try {
+        const chat = await Chat.create(req.body);
+        res.status(201).json(chat);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
 const deleteChat = async (req, res) => {
     try {
-        const chat = await Chat.findOne({ where: { chatId: req.params.id } });
-        if (!chat) {
+        const success = await deleteChatAndImage(req.params.id);
+        if (!success) {
             return res.status(404).send('Chat not found');
         }
-        if (chat.fileUrl) {
-            const filePath = path.join('uploads', path.basename(chat.fileUrl));
-
-            fs.unlink(filePath, (err) => {
-                if (err) {
-                    console.error('Error deleting file:', err);
-                }
-            });
-        }
-
-        await Chat.destroy({ where: { chatId: req.params.id } });
         res.status(200).send('Chat and associated file deleted');
     } catch (error) {
         console.error('Error deleting chat:', error);
-        res.status(500).send('Server error');
+        res.status(500).json({ error: 'Internal server error' });
     }
 };
 
@@ -81,10 +93,11 @@ const uploadFile = (req, res) => {
     const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${file.filename}`;
     res.status(200).json({ url: fileUrl });
 };
+
 export default {
     getChats,
     postChat,
     deleteChat,
     upload,
     uploadFile,
-}
+};

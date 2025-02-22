@@ -1,4 +1,6 @@
 ﻿import User from "../models/User.js";
+import Favorites from "../models/Favorites.js";
+import Location from "../models/Location.js";
 
 const getUsers = async (req, res) => {
     User.findAll()
@@ -54,10 +56,19 @@ const postUser = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 }
+const deleteUser = async (req, res) => {
+    User.destroy({ where: { id: req.params.id } })
+        .then(() => {
+            res.status(200).send('Bruker slettet');
+        }).catch(err => {
+        res.status(500).send('Server error');
+    })
+}
 export default {
     getUsers,
     updateUser,
     getUserById,
     login,
     postUser,
+    deleteUser,
 }

@@ -40,6 +40,7 @@ app.put('/api/users', userController.updateUser);
 app.get('/api/users/:id', userController.getUserById);
 app.post('/api/login', userController.login);
 app.post('/api/users', userController.postUser);
+app.delete('/api/users/:id', userController.deleteUser);
 
 app.get('/api/ratings/:id', ratingsController.getRatings);
 app.post('/api/ratings', ratingsController.postRating);

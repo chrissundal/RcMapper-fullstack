@@ -13,7 +13,7 @@
                 <option value="Plane">Fly</option>
                 <option value="Drone">Drone</option>
                 <option value="Quad">Quad</option>
-                <option value="Gereral">Generelt</option>
+                <option value="General">Generelt</option>
             </select>
         </div>
         <h4 v-if="errorMessage" class="error-message">{{ errorMessage }}</h4>

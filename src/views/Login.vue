@@ -37,7 +37,7 @@ const login = () => {
         password: password.value
     })
         .then(response => {
-            if (response.data.banned) {
+            if (response.data.user.banned) {
                 errorMessage.value = "Du er ikke velkommen her";
                 return;
             } else {
@@ -110,6 +110,7 @@ span:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 90vh;
 }
 
 </style>

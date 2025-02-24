@@ -48,7 +48,7 @@ const login = () => {
             }
         })
         .catch(error => {
-            errorMessage.value = error.response.data;
+            errorMessage.value = "Ugyldig brukernavn eller passord";
         });
 };
 const CloseRegister = () => {

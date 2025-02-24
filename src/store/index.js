@@ -1,40 +1,46 @@
 ﻿import { createStore } from 'vuex';
-import Cookies from 'js-cookie';
 
 export default createStore({
     state: {
-        user: JSON.parse(Cookies.get('user') || null),
-        token: Cookies.get('token') || '',
+        user: JSON.parse(localStorage.getItem('user') || 'null'),
+        sessionId: localStorage.getItem('sessionId') || '',
     },
     mutations: {
         setUser(state, user) {
             state.user = user;
-            Cookies.set('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(user));
         },
         clearUser(state) {
             state.user = null;
-            Cookies.remove('user');
+            localStorage.removeItem('user');
         },
-        setToken(state, token) {
-            state.token = token;
-            Cookies.set('token', token);
+        setSessionId(state, sessionId) {
+            state.sessionId = sessionId;
+            localStorage.setItem('sessionId', sessionId);
         },
-        clearToken(state) {
-            state.token = '';
-            Cookies.remove('token');
+        clearSessionId(state) {
+            state.sessionId = '';
+            localStorage.removeItem('sessionId');
+        },
+        updateUser(state, user) {
+            state.user = { ...state.user, ...user };
+            localStorage.setItem('user', JSON.stringify(state.user));
         }
     },
     actions: {
-        login({ commit }, { user, token }) {
+        login({ commit }, { user, sessionId }) {
             commit('setUser', user);
-            commit('setToken', token);
+            commit('setSessionId', sessionId);
         },
         logout({ commit }) {
             commit('clearUser');
-            commit('clearToken');
+            commit('clearSessionId');
         },
+        updateUser({ commit }, user) {
+            commit('updateUser', user);
+        }
     },
     getters: {
-        isAuthenticated: state => !!state.token,
+        isAuthenticated: state => !!state.sessionId,
     }
 });

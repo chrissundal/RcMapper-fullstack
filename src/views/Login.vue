@@ -42,8 +42,8 @@ const login = () => {
                 return;
             } else {
                 const user = response.data.user;
-                const token = response.data.token;
-                store.dispatch('login', { user, token });
+                const sessionId = response.data.token;
+                store.dispatch('login', { user, sessionId });
                 router.push(`/map`);
             }
         })

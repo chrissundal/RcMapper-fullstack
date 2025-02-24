@@ -1,7 +1,7 @@
 ﻿<template>
         <div class="filter-buttons">
             <button
-                v-for="filter in filters.slice(0, -1)"
+                v-for="filter in chatFilters"
                 :key="filter.value"
                 @click="setChat(filter)"
                 :class="{ active: activeFilter === filter.value }"
@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import filters from "@/components/helpers/CategoryFilters.js";
+import chatFilters from "@/components/helpers/chatFilters.js";
 import {ref, onMounted, watch} from "vue";
 import fetchChatByCategory from "@/components/fetch/fetchChatByCategory.js";
 import {useStore} from "vuex";
@@ -50,8 +50,8 @@ import deleteChat from "@/components/delete/deleteChat.js";
 import uploadFile from "@/components/post/uploadFile.js";
 
 const store = useStore();
-const activeFilter = ref(filters[0].value);
-const categoryName = ref(filters[0].label)
+const activeFilter = ref(chatFilters[0].value);
+const categoryName = ref(chatFilters[0].label)
 const chats = ref([]);
 const message = ref('')
 const file = ref(null);
@@ -143,11 +143,12 @@ onMounted(() => {
     align-items: center;
     gap: 5px;
     height: 40px;
+    width: 90vw;
 }
 .filter-buttons button {
-    width: 17vw;
+    width: 14vw;
     max-width: 120px;
-    font-size: 0.9em;
+    font-size: 0.8em;
     display: flex;
     align-items: center;
     justify-content: center;

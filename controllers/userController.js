@@ -12,11 +12,22 @@ const getUsers = async (req, res) => {
             res.status(500).send('Server error');
         })
 }
+
 const updateUser = async (req, res) => {
-    User.update(req.body, {where: { id: req.body.id }})
-        .then((updatedUser) => { res.json(updatedUser); })
-        .catch(err => { res.status(500).send('Server error'); })
+    try {
+        const updatedUser = await User.update(req.body, {
+            where: { id: req.body.id },
+            returning: true,
+        });
+        if (updatedUser[0] === 0) {
+            return res.status(404).send('Bruker ikke funnet');
+        }
+        res.json(updatedUser[1][0]);
+    } catch (error) {
+        res.status(500).send('Server error');
+    }
 }
+
 const getUserById = async (req, res) => {
     User.findByPk(req.params.id)
         .then((user) => {
@@ -59,6 +70,7 @@ const postUser = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 }
+
 const deleteUser = async (req, res) => {
     Favorites.destroy({ where: { userId: req.params.id }})
         .catch(err => {
@@ -71,16 +83,18 @@ const deleteUser = async (req, res) => {
         res.status(500).send('Kunne ikke slette bruker');
     })
 }
+
 function authenticateToken(req, res, next) {
     const token = req.headers['authorization']?.split(' ')[1];
     if (!token) return res.sendStatus(401);
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    jwt.verify(token, 'your_secret_key', (err, user) => {
         if (err) return res.sendStatus(403);
         req.user = user;
         next();
     });
 }
+
 export default {
     getUsers,
     updateUser,
@@ -90,3 +104,4 @@ export default {
     deleteUser,
     authenticateToken,
 }
+

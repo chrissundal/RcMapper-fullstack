@@ -14,6 +14,7 @@
                 <option value="Plane">Fly</option>
                 <option value="Drone">Drone</option>
                 <option value="Quad">Quad</option>
+                <option value="General">Generelt</option>
             </select>
         </div>
         <div>{{message}}</div>
@@ -41,32 +42,38 @@ const message = ref('');
 
 const updateUser = async () => {
     message.value = '';
+    let updatedUser = { ...user.value };
+
     if (firstname.value !== user.value.firstname) {
-        user.value.firstname = firstname.value;
+        updatedUser.firstname = firstname.value;
     }
     if (lastname.value !== user.value.lastname) {
-        user.value.lastname = lastname.value;
+        updatedUser.lastname = lastname.value;
     }
     if (username.value !== user.value.username) {
-        user.value.username = username.value;
+        updatedUser.username = username.value;
     }
     if (password.value !== user.value.password) {
-        user.value.password = password.value;
+        updatedUser.password = password.value;
     }
     if (favCategory.value !== user.value.favCategory) {
-        user.value.favCategory = favCategory.value;
+        updatedUser.favCategory = favCategory.value;
     }
-    const success = await putUser(user.value);
+
+    const success = await putUser(updatedUser);
+
     if (success) {
-        await store.dispatch('login', user.value);
+        await store.dispatch('updateUser', updatedUser);
         message.value = 'Bruker lagret';
         setTimeout(() => {
-            emit('toggleUser')
-        },2000);
+            emit('toggleUser');
+        }, 2000);
     } else {
         message.value = 'Bruker ikke lagret';
     }
 };
+
+
 const closeUser = () => {
     firstname.value = '';
     lastname.value = '';

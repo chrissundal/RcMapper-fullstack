@@ -15,8 +15,8 @@ export default defineConfig({
   ],
   server: {
     https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'C:/Users/chris/OneDrive/Documents/GitHub/GETPrepared/localhost-key.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'C:/Users/chris/OneDrive/Documents/GitHub/GETPrepared/localhost.pem')),
+      key: fs.readFileSync(path.resolve(__dirname, 'C:/Users/chris/OneDrive/Documents/GitHub/RcMapper-fullstack/localhost-key.pem')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'C:/Users/chris/OneDrive/Documents/GitHub/RcMapper-fullstack/localhost.pem')),
     },
   },
   resolve: {

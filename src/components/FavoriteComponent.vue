@@ -11,7 +11,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="favorite in favorites" :key="favorite.favoriteId" @click="goToLocation(favorite.locationId)">
+                <tr v-for="favorite in favorites" :key="favorite.favoriteId" @click="goToLocation(favorite.locationId,favorite.locationTitle)">
                     <td><img :src="getIconUrl(favorite.category)" alt="Category Icon" class="favorite-category-icon"/></td>
                     <td>{{ favorite.locationTitle }}</td>
                     <td>{{ favorite.city }}</td>
@@ -35,8 +35,16 @@ import RcIcons from "@/components/helpers/RcIcons.js";
 const router = useRouter();
 const store = useStore();
 const favorites = ref([])
-const goToLocation = (locationId) => {
-    router.push(`/details/${locationId}`);
+const goToLocation = (locationId,title) => {
+    router.push({
+        name: 'details',
+        params: {
+            place: title,
+        },
+        query: {
+            id: locationId,
+        }
+    });
 };
 const getIconUrl = (category) => {
     return RcIcons[category] || RcIcons['default'];

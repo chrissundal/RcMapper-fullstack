@@ -47,8 +47,8 @@ app.get('/api/ratings/:id', ratingsController.getRatings);
 app.post('/api/ratings', ratingsController.postRating);
 
 const sslOptions = {
-    key: fs.readFileSync('C:/Users/chris/OneDrive/Documents/GitHub/GETPrepared/localhost-key.pem'),
-    cert: fs.readFileSync('C:/Users/chris/OneDrive/Documents/GitHub/GETPrepared/localhost.pem'),
+    key: fs.readFileSync('C:/Users/chris/OneDrive/Documents/GitHub/RcMapper-fullstack/localhost-key.pem'),
+    cert: fs.readFileSync('C:/Users/chris/OneDrive/Documents/GitHub/RcMapper-fullstack/localhost.pem'),
 };
 
 https.createServer(sslOptions, app).listen(port, () => {

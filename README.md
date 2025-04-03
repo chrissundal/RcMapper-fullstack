@@ -15,7 +15,7 @@ A full-stack project with an MSSQL database, Node.js backend, and Vue.js fronten
 3. [Backend](#backend)
 4. [Tools & Dependencies](#tools--dependencies)
 5. [Installation](#installation)
-6. [License](#license)
+6. [Screenshots](#screenshots)
 
 ---
 
@@ -83,3 +83,10 @@ The backend is built with Node.js and uses the following setup:
 1. Clone the repository:
    ```bash
    git clone https://github.com/chrissundal/RcMapper-fullstack.git
+
+## Screenshots
+![Bilde1](public/images/image1.png)
+![Bilde2](public/images/image2.png)
+![Bilde3](public/images/image3.png)
+![Bilde4](public/images/image4.png)
+
